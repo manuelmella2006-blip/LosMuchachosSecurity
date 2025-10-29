@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "299566492945",
+    "project_id": "losmuchachossecurity",
+    "storage_bucket": "losmuchachossecurity.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:299566492945:android:59f9fe80e4c6358cdd70b0",
+        "android_client_info": {
+          "package_name": "com.example.losmuchachossecurity"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCC9Uq8gZ07T8-Ghtb2F8Fu2W-PrEvDqOE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
