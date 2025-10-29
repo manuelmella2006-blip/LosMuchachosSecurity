@@ -1,80 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mainMenu"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal"
+    android:background="#FFFFFF"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#101820"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <!-- Título principal -->
     <TextView
-        android:id="@+id/titleText"
+        android:id="@+id/tvMenuTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="LosMuchachos Security"
-        android:textColor="#FFFFFF"
         android:textSize="26sp"
         android:textStyle="bold"
         android:fontFamily="sans-serif-medium"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="80dp" />
+        android:textColor="#000000"
+        android:layout_marginBottom="40dp" />
 
-    <!-- Botón Maqueta 3D -->
     <Button
         android:id="@+id/btnMaqueta3D"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Ver Maqueta 3D"
         android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:backgroundTint="#5E5CE6"
+        android:textStyle="bold"
         android:fontFamily="sans-serif-medium"
-        app:layout_constraintTop_toBottomOf="@id/titleText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginTop="60dp"
-        android:padding="14dp"
-        app:cornerRadius="16dp" />
+        android:backgroundTint="#007AFF"
+        android:layout_marginBottom="16dp"
+        android:padding="14dp" />
 
-    <!-- Botón Historial -->
     <Button
         android:id="@+id/btnHistorial"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Ver Historial"
         android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:backgroundTint="#34C759"
+        android:textStyle="bold"
         android:fontFamily="sans-serif-medium"
-        app:layout_constraintTop_toBottomOf="@id/btnMaqueta3D"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginTop="24dp"
-        android:padding="14dp"
-        app:cornerRadius="16dp" />
+        android:backgroundTint="#007AFF"
+        android:layout_marginBottom="16dp"
+        android:padding="14dp" />
 
-    <!-- Botón Panel de Control -->
     <Button
         android:id="@+id/btnControl"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Panel de Control"
         android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:backgroundTint="#FF9500"
+        android:textStyle="bold"
         android:fontFamily="sans-serif-medium"
-        app:layout_constraintTop_toBottomOf="@id/btnHistorial"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginTop="24dp"
-        android:padding="14dp"
-        app:cornerRadius="16dp" />
+        android:backgroundTint="#007AFF"
+        android:padding="14dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

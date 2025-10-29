@@ -7,6 +7,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ControlActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -14,6 +15,7 @@ public class ControlActivity extends AppCompatActivity {
         setContentView(R.layout.activity_control);
 
         Button btnVolverControl = findViewById(R.id.btnVolverControl);
+
         btnVolverControl.setOnClickListener(v -> {
             Intent intent = new Intent(ControlActivity.this, MainActivity.class);
             startActivity(intent);

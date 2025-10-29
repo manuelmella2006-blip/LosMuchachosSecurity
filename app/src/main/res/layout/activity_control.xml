@@ -1,34 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal"
+    android:background="#FFFFFF"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#101820">
+    android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/titleControl"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvControl"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Panel de Control del Sistema IoT"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnVolverControl"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:text="Aquí se controlarán los dispositivos IoT"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:layout_marginBottom="60dp" />
 
     <Button
         android:id="@+id/btnVolverControl"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Volver al Menú Principal"
         android:textColor="#FFFFFF"
         android:backgroundTint="#007AFF"
-        android:padding="12dp"
-        app:cornerRadius="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="40dp" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-medium"
+        android:padding="14dp" />
+</LinearLayout>
