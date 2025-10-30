@@ -12,16 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LosMuchachosSecurity">
         <activity
-            android:name=".ControlActivity"
+            android:name=".ui.ControlActivity"
             android:exported="false" />
         <activity
-            android:name=".HistorialActivity"
+            android:name=".ui.HistorialActivity"
             android:exported="false" />
         <activity
-            android:name=".Maqueta3DActivity"
+            android:name=".ui.Maqueta3DActivity"
             android:exported="false" /> <!-- Pantalla de inicio: Login -->
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,7 +30,7 @@
             </intent-filter>
         </activity> <!-- Pantalla principal: no es lanzador -->
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true" />
     </application>
 
