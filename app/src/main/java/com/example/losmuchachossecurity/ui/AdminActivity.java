@@ -1,6 +1,7 @@
 package com.example.losmuchachossecurity.ui;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
@@ -10,7 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.losmuchachossecurity.R;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -96,7 +100,130 @@ public class AdminActivity extends AppCompatActivity {
      * Exporta el historial a PDF o Excel (placeholder)
      */
     private void exportarHistorial(String formato) {
-        Toast.makeText(this, "Exportando historial a " + formato.toUpperCase() + "...", Toast.LENGTH_SHORT).show();
-        // 🔜 Aquí se implementará la generación del archivo (PDF o XLSX)
+        if (!formato.equalsIgnoreCase("pdf")) {
+            Toast.makeText(this, "Solo disponible en PDF por ahora", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        db.collection("registros")
+                .orderBy("horaEntrada")
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    if (querySnapshot.isEmpty()) {
+                        Toast.makeText(this, "No hay registros para exportar", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    try {
+                        // 🗂️ Ruta donde se guardará el archivo
+                        String nombreArchivo = "Historial_Estacionamiento_" +
+                                new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".pdf";
+                        File archivo = new File(getExternalFilesDir(null), nombreArchivo);
+
+                        // 🖨️ Crear documento PDF
+                        com.itextpdf.text.Document documento = new com.itextpdf.text.Document();
+                        com.itextpdf.text.pdf.PdfWriter.getInstance(documento, new FileOutputStream(archivo));
+                        documento.open();
+
+                        // 🏷️ Encabezado
+                        documento.add(new com.itextpdf.text.Paragraph("Centro Integral Alerce - Estacionamiento"));
+                        documento.add(new com.itextpdf.text.Paragraph("Historial de Entradas y Salidas"));
+                        documento.add(new com.itextpdf.text.Paragraph(
+                                "Generado: " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date())
+                        ));
+                        documento.add(new com.itextpdf.text.Paragraph(" "));
+                        documento.add(new com.itextpdf.text.Paragraph("──────────────────────────────"));
+                        documento.add(new com.itextpdf.text.Paragraph(" "));
+
+                        // 🧾 Tabla
+                        com.itextpdf.text.pdf.PdfPTable tabla = new com.itextpdf.text.pdf.PdfPTable(4);
+                        tabla.setWidthPercentage(100);
+                        tabla.addCell("Usuario");
+                        tabla.addCell("Plaza");
+                        tabla.addCell("Entrada");
+                        tabla.addCell("Salida");
+
+                        for (QueryDocumentSnapshot doc : querySnapshot) {
+                            String usuario = doc.getString("usuarioNombre");
+                            Object plaza = doc.get("plazaNumero");
+                            Object entrada = doc.get("horaEntrada");
+                            Object salida = doc.get("horaSalida");
+
+                            if (usuario == null) usuario = "Desconocido";
+                            String plazaTxt = (plaza != null) ? plaza.toString() : "—";
+                            String entradaTxt = convertirAString(entrada);
+                            String salidaTxt = convertirAString(salida);
+                            if (salidaTxt == null) salidaTxt = "En curso";
+
+                            tabla.addCell(usuario);
+                            tabla.addCell(plazaTxt);
+                            tabla.addCell(entradaTxt);
+                            tabla.addCell(salidaTxt);
+                        }
+
+                        documento.add(tabla);
+                        documento.close();
+
+                        Toast.makeText(this, "PDF generado correctamente", Toast.LENGTH_SHORT).show();
+
+                        // 🔗 Opción para compartir el archivo
+                        compartirPDF(archivo);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(this, "Error al generar PDF", Toast.LENGTH_SHORT).show();
+                    }
+
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(this, "Error al leer datos para exportar", Toast.LENGTH_SHORT).show()
+                );
     }
+
+    private void compartirPDF(File archivo) {
+        try {
+            Uri uri = androidx.core.content.FileProvider.getUriForFile(
+                    this,
+                    getPackageName() + ".provider",
+                    archivo
+            );
+
+            Intent compartir = new Intent(Intent.ACTION_SEND);
+            compartir.setType("application/pdf");
+            compartir.putExtra(Intent.EXTRA_STREAM, uri);
+            compartir.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            startActivity(Intent.createChooser(compartir, "Compartir PDF con..."));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error al compartir PDF", Toast.LENGTH_SHORT).show();
+        }
+    }
+    /**
+     * 🔹 Convierte un objeto (Timestamp, String, Long, etc.) a texto legible.
+     */
+    private String convertirAString(Object valor) {
+        if (valor == null) return "—";
+
+        // Si Firestore guarda la fecha como Timestamp
+        if (valor instanceof com.google.firebase.Timestamp) {
+            java.util.Date fecha = ((com.google.firebase.Timestamp) valor).toDate();
+            return new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm", java.util.Locale.getDefault()).format(fecha);
+        }
+
+        // Si ya es String
+        if (valor instanceof String) {
+            return (String) valor;
+        }
+
+        // Si es número (por ejemplo, milisegundos)
+        if (valor instanceof Number) {
+            java.util.Date fecha = new java.util.Date(((Number) valor).longValue());
+            return new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm", java.util.Locale.getDefault()).format(fecha);
+        }
+
+        // En cualquier otro caso, devuelve su texto
+        return valor.toString();
+    }
+
 }
