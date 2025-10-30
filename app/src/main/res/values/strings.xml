@@ -1,3 +1,54 @@
 <resources>
+    <!-- App Name -->
     <string name="app_name">LosMuchachosSecurity</string>
+
+    <!-- ========== LOGIN SCREEN ========== -->
+    <string name="login_app_title">Los Muchachos Security</string>
+    <string name="login_subtitle">Sistema de Estacionamiento Inteligente</string>
+    <string name="login_title">Iniciar Sesión</string>
+    <string name="login_description">Ingresa tus credenciales para continuar</string>
+    <string name="login_email_hint">Correo electrónico</string>
+    <string name="login_password_hint">Contraseña</string>
+    <string name="login_button">INICIAR SESIÓN</string>
+    <string name="login_register_button">CREAR CUENTA</string>
+    <string name="login_forgot_password">¿Olvidaste tu contraseña?</string>
+    <string name="login_footer">Santo Tomás © 2024</string>
+
+    <!-- ========== VALIDACIONES ========== -->
+    <string name="error_email_required">El correo es requerido</string>
+    <string name="error_email_invalid">Formato de correo inválido</string>
+    <string name="error_password_required">La contraseña es requerida</string>
+    <string name="error_password_short">La contraseña debe tener al menos 6 caracteres</string>
+    <string name="error_password_weak">La contraseña es muy débil</string>
+
+    <!-- ========== MENSAJES DE ÉXITO ========== -->
+    <string name="success_account_created">Cuenta creada exitosamente</string>
+    <string name="success_welcome">¡Bienvenido!</string>
+    <string name="success_reset_email">Revisa tu correo para restablecer tu contraseña</string>
+    <string name="success_login">Inicio de sesión exitoso</string>
+
+    <!-- ========== MENSAJES DE ERROR ========== -->
+    <string name="error_auth">Error de autenticación</string>
+    <string name="error_no_account">No existe una cuenta con este correo</string>
+    <string name="error_wrong_credentials">Credenciales incorrectas</string>
+    <string name="error_account_exists">Ya existe una cuenta con este correo</string>
+    <string name="error_reset_email">No pudimos enviar el correo. Verifica tu email</string>
+    <string name="error_network">Error de conexión. Verifica tu internet</string>
+
+    <!-- ========== BOTTOM NAVIGATION (Para Fase 2) ========== -->
+    <string name="nav_home">Inicio</string>
+    <string name="nav_history">Historial</string>
+    <string name="nav_control">Control</string>
+    <string name="nav_admin">Admin</string>
+
+    <!-- ========== MAIN ACTIVITY ========== -->
+    <string name="main_welcome">Bienvenido al Sistema</string>
+    <string name="main_loading">Cargando...</string>
+
+    <!-- ========== GENERAL ========== -->
+    <string name="action_logout">Cerrar Sesión</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_accept">Aceptar</string>
+    <string name="action_save">Guardar</string>
+    <string name="loading">Cargando...</string>
 </resources>

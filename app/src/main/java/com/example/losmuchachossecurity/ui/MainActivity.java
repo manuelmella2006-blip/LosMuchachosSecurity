@@ -2,101 +2,139 @@ package com.example.losmuchachossecurity.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import com.example.losmuchachossecurity.R;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.example.losmuchachossecurity.ui.fragments.AdminFragment;
+import com.example.losmuchachossecurity.ui.fragments.ControlFragment;
+import com.example.losmuchachossecurity.ui.fragments.HistorialFragment;
+import com.example.losmuchachossecurity.ui.fragments.InicioFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnMaqueta3D, btnHistorial, btnControl, btnAdmin;
-    private FirebaseFirestore db; // 🔹 Conexión a Firestore
+    private BottomNavigationView bottomNav;
+    private Toolbar toolbar;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        // 🔹 Inicializar Firestore
-        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
-        // 🔹 Probar conexión (escribir y leer datos)
-        probarConexionFirestore();
+        // Configurar Toolbar
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        // 🔹 Referencias a los botones
-        btnMaqueta3D = findViewById(R.id.btnMaqueta3D);
-        btnHistorial = findViewById(R.id.btnHistorial);
-        btnControl = findViewById(R.id.btnControl);
-        btnAdmin = findViewById(R.id.btnAdmin); // 👈 Nuevo botón administrador
+        // Configurar Bottom Navigation
+        bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setOnItemSelectedListener(navListener);
 
-        // 🔹 Navegación entre pantallas
-        btnMaqueta3D.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, Maqueta3DActivity.class);
-            startActivity(intent);
-        });
-
-        btnHistorial.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, HistorialActivity.class);
-            startActivity(intent);
-        });
-
-        btnControl.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, ControlActivity.class);
-            startActivity(intent);
-        });
-
-        // 🔹 Modo administrador
-        btnAdmin.setOnClickListener(v -> {
-            // Aquí podrías validar el rol del usuario (si lo deseas)
-            // Por ahora entra directo al panel admin
-            Intent intent = new Intent(MainActivity.this, AdminActivity.class);
-            startActivity(intent);
-            Toast.makeText(this, "Modo administrador", Toast.LENGTH_SHORT).show();
-        });
+        // Cargar fragment inicial (Inicio)
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new InicioFragment())
+                    .commit();
+        }
     }
 
     /**
-     * 🔍 Prueba de conexión con Cloud Firestore
+     * Listener para el Bottom Navigation
      */
-    private void probarConexionFirestore() {
-        Map<String, Object> datosPrueba = new HashMap<>();
-        datosPrueba.put("fecha", "30/10/2025");
-        datosPrueba.put("mensaje", "Conexión Firestore OK 💙");
+    private final BottomNavigationView.OnItemSelectedListener navListener =
+            item -> {
+                Fragment selectedFragment = null;
+                int itemId = item.getItemId();
 
-        db.collection("testConexion")
-                .add(datosPrueba)
-                .addOnSuccessListener(docRef -> {
-                    Log.d("FirestoreTest", "✅ Documento agregado: " + docRef.getId());
-                    leerDatosDeVehicles();
-                })
-                .addOnFailureListener(e -> Log.e("FirestoreTest", "❌ Error al escribir", e));
+                if (itemId == R.id.nav_home) {
+                    selectedFragment = new InicioFragment();
+                } else if (itemId == R.id.nav_history) {
+                    selectedFragment = new HistorialFragment();
+                } else if (itemId == R.id.nav_control) {
+                    selectedFragment = new ControlFragment();
+                } else if (itemId == R.id.nav_admin) {
+                    selectedFragment = new AdminFragment();
+                }
+
+                if (selectedFragment != null) {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, selectedFragment)
+                            .commit();
+                }
+
+                return true;
+            };
+
+    /**
+     * Crear menú con opción de logout
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     /**
-     * 🔍 Leer datos reales de la colección "vehicles"
+     * Manejar clic en logout
      */
-    private void leerDatosDeVehicles() {
-        db.collection("vehicles")
-                .get()
-                .addOnSuccessListener(querySnapshot -> {
-                    if (!querySnapshot.isEmpty()) {
-                        for (QueryDocumentSnapshot document : querySnapshot) {
-                            Log.d("FirestoreVehicles", "🚗 ID: " + document.getId() + " → " + document.getData());
-                        }
-                    } else {
-                        Log.w("FirestoreVehicles", "⚠️ No hay documentos en 'vehicles'.");
-                    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_logout) {
+            showLogoutDialog();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Diálogo de confirmación para cerrar sesión
+     */
+    private void showLogoutDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Cerrar Sesión")
+                .setMessage("¿Estás seguro que deseas cerrar sesión?")
+                .setPositiveButton("Sí", (dialog, which) -> logout())
+                .setNegativeButton("Cancelar", null)
+                .show();
+    }
+
+    /**
+     * Cerrar sesión y volver al login
+     */
+    private void logout() {
+        mAuth.signOut();
+        Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.putExtra("FROM_LOGOUT", true);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    /**
+     * Prevenir cierre accidental con botón atrás
+     */
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Salir")
+                .setMessage("¿Deseas salir de la aplicación?")
+                .setPositiveButton("Sí", (dialog, which) -> {
+                    super.onBackPressed();
+                    finishAffinity();
                 })
-                .addOnFailureListener(e -> Log.e("FirestoreVehicles", "❌ Error al leer 'vehicles'", e));
+                .setNegativeButton("No", null)
+                .show();
     }
 }

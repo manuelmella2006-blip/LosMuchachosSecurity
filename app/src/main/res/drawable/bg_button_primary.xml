@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/drawable/bg_button_primary.xml -->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/ust_green_dark">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/ust_green_primary"/>
+            <corners android:radius="12dp"/>
+        </shape>
+    </item>
+</ripple>

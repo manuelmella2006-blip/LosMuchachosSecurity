@@ -1,5 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Colores Base -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- ========== PALETA INSTITUCIONAL SANTO TOMÁS ========== -->
+
+    <!-- Colores Primarios (Verde Santo Tomás) -->
+    <color name="ust_green_primary">#1B5E20</color>
+    <color name="ust_green_secondary">#2E7D32</color>
+    <color name="ust_green_light">#E8F5E8</color>
+    <color name="ust_green_dark">#0D3310</color>
+
+    <!-- Colores de Apoyo (Grises) -->
+    <color name="gray_dark">#2C3E50</color>
+    <color name="gray_medium">#7F8C8D</color>
+    <color name="gray_light">#F8F9FA</color>
+    <color name="gray_border">#E9ECEF</color>
+
+    <!-- Colores de Estado -->
+    <color name="success">#28A745</color>
+    <color name="warning">#FFC107</color>
+    <color name="error">#DC3545</color>
+    <color name="info">#17A2B8</color>
+
+    <!-- Colores de Actividades (Para futuro calendario) -->
+    <color name="activity_capacitacion">#1B5E20</color>
+    <color name="activity_taller">#2E7D32</color>
+    <color name="activity_charlas">#66BB6A</color>
+    <color name="activity_atenciones">#28A745</color>
+    <color name="activity_operativo">#FFC107</color>
+    <color name="activity_practica">#6F42C1</color>
+    <color name="activity_diagnostico">#FD7E14</color>
+
+    <!-- Colores Adicionales para UI -->
+    <color name="background_primary">#FFFFFF</color>
+    <color name="background_secondary">#F8F9FA</color>
+    <color name="text_primary">#2C3E50</color>
+    <color name="text_secondary">#7F8C8D</color>
+    <color name="divider">#E9ECEF</color>
+
+    <!-- Overlay y Sombras -->
+    <color name="overlay_dark">#80000000</color>
+    <color name="shadow_light">#1A000000</color>
 </resources>
