@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Base application theme (Light Mode) -->
     <style name="Base.Theme.LosMuchachosSecurity" parent="Theme.Material3.Light.NoActionBar">
         <!-- Primary colors (Verde Santo Tomás) -->
@@ -17,12 +18,10 @@
         <item name="colorSurface">@color/white</item>
         <item name="colorOnSurface">@color/text_primary</item>
 
-        <!-- Error colors -->
-        <item name="colorError">@color/error</item>
-        <item name="colorOnError">@color/white</item>
-
         <!-- Status bar (verde institucional) -->
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/ust_green_primary</item>
+        <!-- iconos blancos -->
         <item name="android:windowLightStatusBar">false</item>
 
         <!-- Navigation bar -->
@@ -43,4 +42,5 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
 </resources>
