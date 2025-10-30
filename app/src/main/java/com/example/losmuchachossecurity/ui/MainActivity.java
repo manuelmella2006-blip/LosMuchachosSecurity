@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +18,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnMaqueta3D, btnHistorial, btnControl;
+    private Button btnMaqueta3D, btnHistorial, btnControl, btnAdmin;
     private FirebaseFirestore db; // 🔹 Conexión a Firestore
 
     @Override
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         btnMaqueta3D = findViewById(R.id.btnMaqueta3D);
         btnHistorial = findViewById(R.id.btnHistorial);
         btnControl = findViewById(R.id.btnControl);
+        btnAdmin = findViewById(R.id.btnAdmin); // 👈 Nuevo botón administrador
 
         // 🔹 Navegación entre pantallas
         btnMaqueta3D.setOnClickListener(v -> {
@@ -52,14 +54,21 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, ControlActivity.class);
             startActivity(intent);
         });
+
+        // 🔹 Modo administrador
+        btnAdmin.setOnClickListener(v -> {
+            // Aquí podrías validar el rol del usuario (si lo deseas)
+            // Por ahora entra directo al panel admin
+            Intent intent = new Intent(MainActivity.this, AdminActivity.class);
+            startActivity(intent);
+            Toast.makeText(this, "Modo administrador", Toast.LENGTH_SHORT).show();
+        });
     }
 
     /**
      * 🔍 Prueba de conexión con Cloud Firestore
-     * Crea un documento temporal y luego lee algunos datos de Firestore.
      */
     private void probarConexionFirestore() {
-        // Escribir documento de prueba
         Map<String, Object> datosPrueba = new HashMap<>();
         datosPrueba.put("fecha", "30/10/2025");
         datosPrueba.put("mensaje", "Conexión Firestore OK 💙");
@@ -68,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
                 .add(datosPrueba)
                 .addOnSuccessListener(docRef -> {
                     Log.d("FirestoreTest", "✅ Documento agregado: " + docRef.getId());
-                    // Luego leer algunos datos de la colección "vehicles"
                     leerDatosDeVehicles();
                 })
                 .addOnFailureListener(e -> Log.e("FirestoreTest", "❌ Error al escribir", e));

@@ -11,6 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LosMuchachosSecurity">
+        <activity android:name=".ui.AdminActivity"
+            android:exported="false"
+            android:label="Modo Administrador"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar" />
+
         <activity
             android:name=".ui.ControlActivity"
             android:exported="false" />
