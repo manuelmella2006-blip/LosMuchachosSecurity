@@ -9,12 +9,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import com.example.losmuchachossecurity.R;
-import com.example.losmuchachossecurity.ui.fragments.AdminFragment;
-import com.example.losmuchachossecurity.ui.fragments.ControlFragment;
-import com.example.losmuchachossecurity.ui.fragments.HistorialFragment;
 import com.example.losmuchachossecurity.ui.fragments.InicioFragment;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -31,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Fuerza status bar VERDE
+        // Status bar verde
         getWindow().setStatusBarColor(getColor(R.color.ust_green_primary));
         getWindow().getDecorView().setSystemUiVisibility(0);
 
@@ -41,11 +37,11 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Bottom nav
+        // Bottom Navigation
         bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnItemSelectedListener(navListener);
 
-        // Fragment inicial
+        // Cargar fragment inicial (InicioFragment como dashboard)
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new InicioFragment())
@@ -53,36 +49,44 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Listener del Bottom Navigation
+     * Ahora abre Activities en lugar de Fragments
+     */
     private final BottomNavigationView.OnItemSelectedListener navListener = item -> {
-        Fragment selectedFragment = null;
         int itemId = item.getItemId();
 
         if (itemId == R.id.nav_home) {
-            selectedFragment = new InicioFragment();
+            // Inicio = Fragment (dashboard)
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new InicioFragment())
+                    .commit();
         } else if (itemId == R.id.nav_history) {
-            selectedFragment = new HistorialFragment();
+            // Historial = Activity
+            startActivity(new Intent(MainActivity.this, HistorialActivity.class));
         } else if (itemId == R.id.nav_control) {
-            selectedFragment = new ControlFragment();
+            // Control = Activity
+            startActivity(new Intent(MainActivity.this, ControlActivity.class));
         } else if (itemId == R.id.nav_admin) {
-            selectedFragment = new AdminFragment();
+            // Admin = Activity
+            startActivity(new Intent(MainActivity.this, AdminActivity.class));
         }
 
-        if (selectedFragment != null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, selectedFragment)
-                    .commit();
-        }
         return true;
     };
 
+    /**
+     * Crear menú con opción de logout
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // 👉 Aquí sí inflamos el menú
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
+    /**
+     * Manejar clic en logout
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_logout) {
@@ -92,6 +96,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Diálogo de confirmación para cerrar sesión
+     */
     private void showLogoutDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Cerrar Sesión")
@@ -101,6 +108,9 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
+    /**
+     * Cerrar sesión y volver al login
+     */
     private void logout() {
         mAuth.signOut();
         Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show();
@@ -112,6 +122,9 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Prevenir cierre accidental
+     */
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
@@ -123,5 +136,15 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .setNegativeButton("No", null)
                 .show();
+    }
+
+    /**
+     * Cuando vuelve de una Activity, resetear Bottom Nav a "Inicio"
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Resetear selección al volver
+        bottomNav.setSelectedItemId(R.id.nav_home);
     }
 }

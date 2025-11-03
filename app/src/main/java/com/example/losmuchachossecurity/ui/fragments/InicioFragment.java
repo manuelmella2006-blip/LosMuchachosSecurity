@@ -1,5 +1,6 @@
 package com.example.losmuchachossecurity.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,9 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.losmuchachossecurity.R;
+import com.example.losmuchachossecurity.ui.Maqueta3DActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -22,7 +25,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 public class InicioFragment extends Fragment {
 
     private TextView tvWelcome, tvPlazasDisponibles, tvEntradasHoy, tvPlazasOcupadas;
-    private CardView cardDisponibles, cardOcupadas, cardEntradas;
+    private CardView cardDisponibles, cardOcupadas, cardEntradas, cardMaqueta;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private ListenerRegistration listenerPlazas, listenerRegistros;
@@ -44,6 +47,12 @@ public class InicioFragment extends Fragment {
         loadUserInfo();
         loadEstadisticas();
 
+        // Configurar clic en card Maqueta 3D
+        cardMaqueta.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), Maqueta3DActivity.class);
+            startActivity(intent);
+        });
+
         return view;
     }
 
@@ -55,6 +64,7 @@ public class InicioFragment extends Fragment {
         cardDisponibles = view.findViewById(R.id.cardDisponibles);
         cardOcupadas = view.findViewById(R.id.cardOcupadas);
         cardEntradas = view.findViewById(R.id.cardEntradas);
+        cardMaqueta = view.findViewById(R.id.cardMaqueta);
     }
 
     private void loadUserInfo() {
@@ -91,8 +101,8 @@ public class InicioFragment extends Fragment {
                         tvPlazasDisponibles.setText(String.valueOf(disponibles));
                         tvPlazasOcupadas.setText(String.valueOf(ocupadas));
 
-                        // Cambiar color de las cards según estado
-                        updateCardColors(disponibles, ocupadas);
+                        // Cambiar color según disponibilidad
+                        updateCardColors(disponibles);
                     }
                 });
 
@@ -111,12 +121,15 @@ public class InicioFragment extends Fragment {
                 });
     }
 
-    private void updateCardColors(int disponibles, int ocupadas) {
-        // Verde si hay disponibles, rojo si está lleno
+    private void updateCardColors(int disponibles) {
         if (disponibles > 0) {
-            cardDisponibles.setCardBackgroundColor(getResources().getColor(R.color.ust_green_light, null));
+            cardDisponibles.setCardBackgroundColor(
+                    ContextCompat.getColor(requireContext(), R.color.ust_green_light)
+            );
         } else {
-            cardDisponibles.setCardBackgroundColor(getResources().getColor(R.color.error, null));
+            cardDisponibles.setCardBackgroundColor(
+                    ContextCompat.getColor(requireContext(), R.color.error)
+            );
         }
     }
 
