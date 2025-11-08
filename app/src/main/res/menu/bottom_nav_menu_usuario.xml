@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/menu/bottom_nav_menu_usuario.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_estacionamientos"
+        android:icon="@drawable/ic_parking"
+        android:title="Disponibles"/>
+
+    <item
+        android:id="@+id/nav_reservar"
+        android:icon="@drawable/ic_reserve"
+        android:title="Reservar"/>
+
+    <item
+        android:id="@+id/nav_navegacion"
+        android:icon="@drawable/ic_navigation"
+        android:title="Navegación"/>
+
+    <item
+        android:id="@+id/nav_config_usuario"
+        android:icon="@drawable/ic_settings"
+        android:title="Configuración"/>
+
+</menu>

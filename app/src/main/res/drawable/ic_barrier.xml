@@ -1,0 +1,29 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Barrier/Gate Icon - Barrera de estacionamiento -->
+
+    <!-- Poste izquierdo -->
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M3,3h2v18H3V3z"/>
+
+    <!-- Poste derecho -->
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M19,3h2v18h-2V3z"/>
+
+    <!-- Barra horizontal con franjas -->
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M5,10h2v3H5V10m3,0h2v3H8V10m3,0h2v3h-2V10m3,0h2v3h-2V10m3,0h2v3h-2V10z"/>
+
+    <!-- Base de la barra -->
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M5,9h14v1H5V9m0,4h14v1H5v-1z"
+        android:fillAlpha="0.6"/>
+</vector>

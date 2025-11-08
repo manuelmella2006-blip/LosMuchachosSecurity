@@ -1,0 +1,17 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Monitor/Dashboard Icon - Panel de monitoreo -->
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M4,6h16v10H4V6m16,-2H4C2.89,4 2,4.89 2,6v10c0,1.11 0.89,2 2,2h5v2H7v2h10v-2h-2v-2h5c1.11,0 2,-0.89 2,-2V6c0,-1.11 -0.89,-2 -2,-2z"/>
+
+    <!-- Estadísticas internas -->
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M7,9h2v5H7V9m4,-2h2v7h-2V7m4,4h2v3h-2v-3z"
+        android:fillAlpha="0.8"/>
+</vector>
