@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Indicador de color lateral -->
+        <View
+            android:id="@+id/indicadorColor"
+            android:layout_width="4dp"
+            android:layout_height="match_parent"
+            android:background="#4CAF50" />
+
+        <!-- Contenido del registro -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Tipo de registro -->
+            <TextView
+                android:id="@+id/tvTipoRegistro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ENTRADA"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#4CAF50" />
+
+            <!-- Detalle -->
+            <TextView
+                android:id="@+id/tvDetalleRegistro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Plaza: P-01"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="4dp" />
+
+            <!-- Usuario -->
+            <TextView
+                android:id="@+id/tvUsuarioRegistro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Usuario: Juan Pérez"
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginTop="4dp" />
+
+            <!-- Fecha y hora -->
+            <TextView
+                android:id="@+id/tvFechaRegistro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="08/11/2024 14:30"
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginTop="4dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

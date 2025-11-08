@@ -79,7 +79,27 @@
                     android:textColor="@color/text_secondary"
                     android:layout_marginBottom="16dp"/>
 
-                <!-- Botón Google Maps -->
+                <!-- 🔹 TextViews agregados -->
+                <TextView
+                    android:id="@+id/tvDireccion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dirección: Av. Principal #123, Ciudad"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_primary"
+                    android:layout_marginBottom="4dp"/>
+
+                <TextView
+                    android:id="@+id/tvInstrucciones"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Instrucciones: Desde la entrada principal, gire a la derecha..."
+                    android:textSize="14sp"
+                    android:textColor="@color/text_secondary"
+                    android:layout_marginBottom="16dp"/>
+                <!-- 🔹 Fin agregado -->
+
+                <!-- Botones -->
                 <Button
                     android:id="@+id/btnAbrirMaps"
                     android:layout_width="match_parent"
@@ -87,6 +107,26 @@
                     android:text="🗺️ Abrir en Google Maps"
                     android:textColor="@color/white"
                     android:backgroundTint="@color/ust_green_primary"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"/>
+
+                <Button
+                    android:id="@+id/btnVerMapa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="📍 Ver Mapa Interno"
+                    android:textColor="@color/white"
+                    android:backgroundTint="@color/ust_green_secondary"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"/>
+
+                <Button
+                    android:id="@+id/btnCompartir"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🔗 Compartir Ubicación"
+                    android:textColor="@color/white"
+                    android:backgroundTint="@color/ust_green_dark"
                     android:textStyle="bold"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

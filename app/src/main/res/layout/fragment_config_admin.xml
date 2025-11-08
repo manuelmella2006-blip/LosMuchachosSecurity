@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- res/layout/fragment_config_admin.xml -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_secondary">
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,92 +11,22 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Título -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Configuración"
+            android:text="Administración"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="@color/text_primary"
-            android:layout_marginBottom="8dp"
-            android:fontFamily="sans-serif-medium" />
+            android:layout_marginBottom="16dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Gestión avanzada del sistema"
-            android:textSize="14sp"
-            android:textColor="@color/text_secondary"
-            android:layout_marginBottom="24dp"/>
-
-        <!-- Gestión de Usuarios -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Gestión de Usuarios"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@color/text_primary"
-            android:layout_marginBottom="12dp"/>
-
-        <Button
-            android:id="@+id/btnGestionarUsuarios"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="👥 Administrar Usuarios"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:backgroundTint="@color/ust_green_primary"
-            android:layout_marginBottom="24dp"/>
-
-        <!-- Divisor -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/divider"
-            android:layout_marginVertical="16dp"/>
-
-        <!-- Gestión de Datos -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Gestión de Datos"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@color/text_primary"
-            android:layout_marginBottom="12dp"/>
-
-        <Button
-            android:id="@+id/btnResetRegistros"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="🗑️ Resetear Registros del Día"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:backgroundTint="@color/warning"
-            android:layout_marginBottom="12dp"/>
-
-        <Button
-            android:id="@+id/btnExportarPDF"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="📄 Exportar Historial a PDF"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:backgroundTint="@color/ust_green_primary"
-            android:layout_marginBottom="24dp"/>
-
-        <!-- Advertencia -->
-        <androidx.cardview.widget.CardView
+        <!-- Card de Perfil Admin -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp"
-            app:cardBackgroundColor="@color/warning"
-            android:layout_marginTop="16dp">
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -108,22 +37,106 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="⚠️ Advertencia"
-                    android:textSize="16sp"
+                    android:text="👤 Perfil de Administrador"
+                    android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:layout_marginBottom="8dp"/>
+                    android:layout_marginBottom="12dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Las acciones de administración afectan directamente la base de datos. Úsalas con precaución."
-                    android:textSize="14sp"
-                    android:textColor="@color/white"
-                    android:alpha="0.9"/>
+                    android:text="Nombre:"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/tvNombreAdmin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Administrador"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Correo:"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/tvEmailAdmin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="admin@email.com"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Card de Gestión -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⚙️ Gestión del Sistema"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp" />
+
+                <Button
+                    android:id="@+id/btnGestionarUsuarios"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Gestionar Usuarios"
+                    android:drawableLeft="@android:drawable/ic_menu_manage"
+                    android:drawablePadding="8dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_marginBottom="8dp" />
+
+                <Button
+                    android:id="@+id/btnConfiguracionSistema"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Configuración del Sistema"
+                    android:drawableLeft="@android:drawable/ic_menu_preferences"
+                    android:drawablePadding="8dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_marginBottom="8dp" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ver Reportes"
+                    android:drawableLeft="@android:drawable/ic_menu_report_image"
+                    android:drawablePadding="8dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Botón Cerrar Sesión -->
+        <Button
+            android:id="@+id/btnCerrarSesionAdmin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cerrar Sesión"
+            android:backgroundTint="#F44336"
+            android:textColor="@android:color/white"
+            android:drawableLeft="@android:drawable/ic_lock_power_off"
+            android:drawablePadding="8dp" />
 
     </LinearLayout>
-
 </ScrollView>

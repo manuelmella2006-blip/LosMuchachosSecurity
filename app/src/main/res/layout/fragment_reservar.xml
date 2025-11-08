@@ -26,10 +26,45 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Completa el formulario para reservar tu plaza"
+            android:text="Selecciona una plaza disponible o completa el formulario para reservar"
             android:textColor="@color/text_secondary"
             android:textSize="14sp"
             android:layout_marginBottom="24dp"/>
+
+        <!-- 🔹 Lista de Plazas Disponibles -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Plazas Disponibles"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- RecyclerView de plazas -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewDisponibles"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:clipToPadding="false"
+                    android:padding="4dp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <!-- 🔹 Fin de lista -->
 
         <!-- Formulario -->
         <androidx.cardview.widget.CardView

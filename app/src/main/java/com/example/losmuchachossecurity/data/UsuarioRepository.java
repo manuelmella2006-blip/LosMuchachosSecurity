@@ -8,7 +8,7 @@ public class UsuarioRepository {
 
     public void crearUsuario(Usuario usuario) {
         db.collection("usuarios")
-                .document(usuario.getId())
+                .document(usuario.getUserId()) // ✅ Aquí se corrige
                 .set(usuario);
     }
 

@@ -42,16 +42,25 @@
             </intent-filter>
         </activity>
 
-        <!-- MainActivity - Contenedor principal con Fragments -->
+        <!-- MainActivityUsuario - menú principal para usuarios -->
+        <activity
+            android:name=".ui.usuario.MainActivityUsuario"
+            android:exported="false" />
+
+        <!-- MainActivityAdmin - menú principal para administradores -->
+        <activity
+            android:name=".ui.admin.MainActivityAdmin"
+            android:exported="false" />
+
+        <!-- MainActivity (base o neutra, si aún se usa internamente) -->
         <activity
             android:name=".ui.MainActivity"
             android:exported="false" />
 
-        <!-- Maqueta3DActivity - Pantalla independiente -->
+        <!-- Maqueta3DActivity (opcional) -->
         <activity
             android:name=".ui.Maqueta3DActivity"
             android:exported="false" />
 
     </application>
-
 </manifest>

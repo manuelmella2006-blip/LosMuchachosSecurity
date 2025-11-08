@@ -1,24 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- res/menu/menu_main_admin.xml -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_gestionar_usuarios"
-        android:icon="@drawable/ic_user_manage"
-        android:title="Gestionar Usuarios"
-        app:showAsAction="ifRoom"/>
+        android:id="@+id/action_notificaciones"
+        android:icon="@android:drawable/ic_popup_reminder"
+        android:title="Notificaciones"
+        app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_refresh"
-        android:icon="@android:drawable/ic_menu_rotate"
-        android:title="Actualizar"
-        app:showAsAction="ifRoom"/>
+        android:id="@+id/action_estadisticas"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="Estadísticas"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_logout"
-        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:icon="@android:drawable/ic_lock_power_off"
         android:title="Cerrar Sesión"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 
 </menu>

@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- res/menu/bottom_nav_menu_admin.xml -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/nav_monitoreo"
         android:icon="@drawable/ic_monitor"
-        android:title="Monitoreo"/>
+        android:title="Monitoreo" />
 
     <item
         android:id="@+id/nav_barreras"
         android:icon="@drawable/ic_barrier"
-        android:title="Barreras"/>
+        android:title="Barreras" />
 
     <item
         android:id="@+id/nav_registros"
         android:icon="@drawable/ic_records"
-        android:title="Registros"/>
+        android:title="Registros" />
 
     <item
         android:id="@+id/nav_config_admin"
         android:icon="@drawable/ic_settings"
-        android:title="Configuración"/>
+        android:title="Administración" />
 
 </menu>
