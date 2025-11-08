@@ -1,18 +1,19 @@
-package com.example.losmuchachossecurity.ui;
+package com.example.losmuchachossecurity.ui.fragments;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-import android.widget.Button;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.example.losmuchachossecurity.R;
 import com.google.firebase.Timestamp;
@@ -25,38 +26,29 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 
-public class HistorialActivity extends AppCompatActivity {
+public class HistorialFragment extends Fragment {
 
     private TableLayout tabla;
-    private Button btnVolverHistorial;
     private TextView tvResumen;
     private FirebaseFirestore db;
     private ListenerRegistration listenerRegistros;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_historial);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_historial, container, false);
 
         db = FirebaseFirestore.getInstance();
-        tabla = findViewById(R.id.tableHistorial);
-        btnVolverHistorial = findViewById(R.id.btnVolverHistorial);
-        tvResumen = findViewById(R.id.tvResumen);
+        tabla = view.findViewById(R.id.tableHistorial);
+        tvResumen = view.findViewById(R.id.tvResumen);
 
-        // 🔹 Escuchar Firestore en tiempo real
+        // Escuchar cambios en tiempo real
         escucharCambiosEnTiempoReal();
 
-        btnVolverHistorial.setOnClickListener(v -> {
-            Intent intent = new Intent(HistorialActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        });
+        return view;
     }
 
-    /**
-     * 🔄 Escucha en tiempo real los cambios en la colección "registros"
-     */
     private void escucharCambiosEnTiempoReal() {
         listenerRegistros = db.collection("registros")
                 .orderBy("horaEntrada")
@@ -65,7 +57,7 @@ public class HistorialActivity extends AppCompatActivity {
                     public void onEvent(@Nullable QuerySnapshot snapshots,
                                         @Nullable FirebaseFirestoreException e) {
                         if (e != null) {
-                            Log.e("FirestoreHistorial", "❌ Error al escuchar Firestore", e);
+                            Log.e("HistorialFragment", "❌ Error al escuchar Firestore", e);
                             mostrarFilaMensaje("❌ Error al conectar con Firestore.");
                             return;
                         }
@@ -76,11 +68,10 @@ public class HistorialActivity extends AppCompatActivity {
                             return;
                         }
 
-                        // 🔹 Contadores
                         int activas = 0;
                         int completadas = 0;
 
-                        // 🔹 Limpiar tabla (mantener encabezado)
+                        // Limpiar tabla (mantener encabezado)
                         if (tabla.getChildCount() > 1) {
                             tabla.removeViews(1, tabla.getChildCount() - 1);
                         }
@@ -115,14 +106,14 @@ public class HistorialActivity extends AppCompatActivity {
                             }
 
                             // Crear fila
-                            TableRow fila = new TableRow(HistorialActivity.this);
+                            TableRow fila = new TableRow(getContext());
                             fila.setPadding(12, 12, 12, 12);
 
                             // Colorear por estado
                             if (enCurso) {
-                                fila.setBackgroundColor(Color.parseColor("#FFF8D8")); // Amarillo claro
+                                fila.setBackgroundColor(Color.parseColor("#FFF8D8"));
                             } else {
-                                fila.setBackgroundColor(Color.parseColor("#E6F8E0")); // Verde suave
+                                fila.setBackgroundColor(Color.parseColor("#E6F8E0"));
                             }
 
                             fila.addView(crearCelda(usuario));
@@ -133,7 +124,6 @@ public class HistorialActivity extends AppCompatActivity {
                             tabla.addView(fila);
                         }
 
-                        // 🔹 Actualizar resumen
                         tvResumen.setText("Entradas activas: " + activas + " | Completadas: " + completadas);
                     }
                 });
@@ -151,7 +141,7 @@ public class HistorialActivity extends AppCompatActivity {
     }
 
     private TextView crearCelda(String texto) {
-        TextView tv = new TextView(this);
+        TextView tv = new TextView(getContext());
         tv.setText(texto);
         tv.setTextColor(Color.parseColor("#222222"));
         tv.setGravity(Gravity.CENTER);
@@ -161,7 +151,7 @@ public class HistorialActivity extends AppCompatActivity {
     }
 
     private void mostrarFilaMensaje(String mensaje) {
-        TableRow fila = new TableRow(this);
+        TableRow fila = new TableRow(getContext());
         TextView tv = crearCelda(mensaje);
         tv.setTextColor(Color.parseColor("#555555"));
         tv.setGravity(Gravity.CENTER);
@@ -171,8 +161,8 @@ public class HistorialActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         if (listenerRegistros != null) {
             listenerRegistros.remove();
         }

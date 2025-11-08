@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- res/layout/activity_control.xml -->
+<!-- res/layout/fragment_control.xml -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -109,8 +109,7 @@
             app:cardCornerRadius="12dp"
             app:cardElevation="2dp"
             app:cardBackgroundColor="@color/info"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp">
+            android:layout_marginTop="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -136,18 +135,6 @@
                     android:alpha="0.9"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-
-        <!-- Botón Volver -->
-        <Button
-            android:id="@+id/btnVolverControl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Volver al Menú Principal"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif-medium"
-            android:backgroundTint="@color/ust_green_primary"
-            android:padding="14dp"/>
 
     </LinearLayout>
 

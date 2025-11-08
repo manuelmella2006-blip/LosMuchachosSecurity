@@ -2,11 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Permisos (si de verdad los necesitas) -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <!-- Permisos necesarios -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
 
     <application
         android:allowBackup="true"
@@ -16,9 +18,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.LosMuchachosSecurity">
+        android:theme="@style/Theme.LosMuchachosSecurity"
+        tools:targetApi="31">
 
-        <!-- FileProvider para compartir PDF -->
+        <!-- FileProvider para compartir PDFs -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -29,26 +32,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <!-- AdminActivity usando tu mismo tema -->
-        <activity
-            android:name=".ui.AdminActivity"
-            android:exported="false"
-            android:label="Modo Administrador"
-            android:theme="@style/Theme.LosMuchachosSecurity" />
-
-        <activity
-            android:name=".ui.ControlActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".ui.HistorialActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".ui.Maqueta3DActivity"
-            android:exported="false" />
-
-        <!-- Login: pantalla de inicio -->
+        <!-- LoginActivity - Pantalla inicial -->
         <activity
             android:name=".ui.LoginActivity"
             android:exported="true">
@@ -58,10 +42,16 @@
             </intent-filter>
         </activity>
 
-        <!-- Main: panel principal -->
+        <!-- MainActivity - Contenedor principal con Fragments -->
         <activity
             android:name=".ui.MainActivity"
-            android:exported="true" />
+            android:exported="false" />
+
+        <!-- Maqueta3DActivity - Pantalla independiente -->
+        <activity
+            android:name=".ui.Maqueta3DActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
