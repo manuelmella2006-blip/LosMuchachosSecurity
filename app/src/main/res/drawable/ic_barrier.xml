@@ -8,22 +8,22 @@
 
     <!-- Poste izquierdo -->
     <path
-        android:fillColor="@android:color/white"
+        android:fillColor="#FF000000"
         android:pathData="M3,3h2v18H3V3z"/>
 
     <!-- Poste derecho -->
     <path
-        android:fillColor="@android:color/white"
+        android:fillColor="#FF000000"
         android:pathData="M19,3h2v18h-2V3z"/>
 
     <!-- Barra horizontal con franjas -->
     <path
-        android:fillColor="@android:color/white"
+        android:fillColor="#FF000000"
         android:pathData="M5,10h2v3H5V10m3,0h2v3H8V10m3,0h2v3h-2V10m3,0h2v3h-2V10m3,0h2v3h-2V10z"/>
 
     <!-- Base de la barra -->
     <path
-        android:fillColor="@android:color/white"
+        android:fillColor="#FF000000"
         android:pathData="M5,9h14v1H5V9m0,4h14v1H5v-1z"
-        android:fillAlpha="0.6"/>
+        android:fillAlpha="0.4"/>
 </vector>

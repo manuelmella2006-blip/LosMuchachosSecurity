@@ -8,18 +8,17 @@
 
     <!-- Documento base -->
     <path
-        android:fillColor="@android:color/white"
+        android:fillColor="#FF000000"
         android:pathData="M6,2h8l6,6v12c0,1.11 -0.89,2 -2,2H6c-1.11,0 -2,-0.89 -2,-2V4c0,-1.11 0.89,-2 2,-2z"/>
 
-    <!-- Líneas de texto -->
+    <!-- Líneas de texto (gris medio para contraste) -->
     <path
-        android:fillColor="#1B5E20"
-        android:pathData="M8,11h8v2H8v-2m0,3h8v2H8v-2m0,3h5v2H8v-2z"
-        android:fillAlpha="0.9"/>
+        android:fillColor="#9E9E9E"
+        android:pathData="M8,11h8v2H8v-2m0,3h8v2H8v-2m0,3h5v2H8v-2z"/>
 
     <!-- Esquina doblada -->
     <path
-        android:fillColor="@android:color/white"
+        android:fillColor="#FF000000"
         android:pathData="M14,2v4c0,1.11 0.89,2 2,2h4L14,2z"
-        android:fillAlpha="0.7"/>
+        android:fillAlpha="0.5"/>
 </vector>

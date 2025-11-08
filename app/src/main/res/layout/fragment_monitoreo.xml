@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:background="@color/background_secondary">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,23 +12,35 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Título -->
+        <!-- Título (estructura Naya) -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Panel de Monitoreo"
             android:textSize="24sp"
             android:textStyle="bold"
+            android:textColor="@color/text_primary"
+            android:layout_marginBottom="6dp" />
+
+        <!-- Saludo opcional -->
+        <TextView
+            android:id="@+id/tvWelcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¡Hola, Administrador!"
+            android:textSize="16sp"
+            android:textColor="@color/text_secondary"
             android:layout_marginBottom="16dp" />
 
-        <!-- Card de Estado General -->
+        <!-- Card Estado del Sistema (Naya + estilo pulido) -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:cardCornerRadius="8dp"
+            app:cardCornerRadius="12dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="#4CAF50">
+            app:strokeWidth="0dp"
+            app:cardBackgroundColor="@color/ust_green_secondary">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -51,11 +64,11 @@
                     android:textColor="@android:color/white"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:layout_marginTop="8dp" />
+                    android:layout_marginTop="6dp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Cards de Estadísticas -->
+        <!-- Fila de estadísticas (Naya) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,12 +77,16 @@
 
             <!-- Disponibles -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardDisponibles"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/gray_border"
+                app:cardBackgroundColor="@color/white">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -81,9 +98,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Disponibles"
-                        android:textSize="14sp"
-                        android:textColor="@android:color/darker_gray" />
+                        android:text="🅿️"
+                        android:textSize="28sp"
+                        android:layout_marginBottom="6dp"/>
 
                     <TextView
                         android:id="@+id/tvDisponiblesAdmin"
@@ -92,19 +109,30 @@
                         android:text="0"
                         android:textSize="32sp"
                         android:textStyle="bold"
-                        android:textColor="#4CAF50"
-                        android:layout_marginTop="8dp" />
+                        android:textColor="@color/ust_green_secondary"
+                        android:layout_marginTop="2dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Disponibles"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_secondary" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Ocupados -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardOcupadas"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/gray_border"
+                app:cardBackgroundColor="@color/white">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -116,9 +144,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Ocupados"
-                        android:textSize="14sp"
-                        android:textColor="@android:color/darker_gray" />
+                        android:text="🚗"
+                        android:textSize="28sp"
+                        android:layout_marginBottom="6dp"/>
 
                     <TextView
                         android:id="@+id/tvOcupadosAdmin"
@@ -127,26 +155,94 @@
                         android:text="0"
                         android:textSize="32sp"
                         android:textStyle="bold"
-                        android:textColor="#F44336"
-                        android:layout_marginTop="8dp" />
+                        android:textColor="@color/error"
+                        android:layout_marginTop="2dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ocupados"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_secondary" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
-        <!-- Título Plazas -->
+        <!-- Título Plazas (Naya) -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Vista en Tiempo Real"
             android:textSize="18sp"
             android:textStyle="bold"
+            android:textColor="@color/text_primary"
             android:layout_marginBottom="12dp" />
 
-        <!-- RecyclerView de Plazas -->
+        <!-- RecyclerView (Naya) -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewPlazasAdmin"
             android:layout_width="match_parent"
-            android:layout_height="300dp" />
+            android:layout_height="300dp"
+            android:background="@android:color/transparent" />
+
+        <!-- NUEVO: Botón/Card 'Ver Maqueta 3D' (Claude) -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardMaqueta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/gray_border"
+            app:cardBackgroundColor="@color/white"
+            android:foreground="?attr/selectableItemBackground">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🎨"
+                    android:textSize="24sp"
+                    android:layout_marginEnd="12dp"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Ver Maqueta 3D"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="›"
+                    android:textSize="24sp"
+                    android:textColor="@color/gray_medium"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Footer opcional -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sistema de Estacionamiento Inteligente — Santo Tomás"
+            android:textSize="12sp"
+            android:textColor="@color/gray_medium"
+            android:gravity="center"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="8dp" />
 
     </LinearLayout>
 </ScrollView>
