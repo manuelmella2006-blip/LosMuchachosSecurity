@@ -52,6 +52,12 @@
             android:name=".ui.admin.MainActivityAdmin"
             android:exported="false" />
 
+        <!-- GestionarUsuariosActivity - CRUD de usuarios (NUEVO) -->
+        <activity
+            android:name=".ui.admin.GestionarUsuariosActivity"
+            android:exported="false"
+            android:theme="@style/Theme.LosMuchachosSecurity" />
+
         <!-- MainActivity (base o neutra, si aún se usa internamente) -->
         <activity
             android:name=".ui.MainActivity"
@@ -63,4 +69,5 @@
             android:exported="false" />
 
     </application>
+
 </manifest>
