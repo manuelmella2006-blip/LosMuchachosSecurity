@@ -3,7 +3,7 @@ package com.example.losmuchachossecurity.model;
 import com.google.firebase.Timestamp;
 
 /**
- * 👤 Modelo de datos para un Usuario del sistema (Firestore + Timestamp)
+ * 👤 Modelo de datos para un Usuario del sistema (Firestore + Timestamp flexible)
  */
 public class Usuario {
     private String userId;
@@ -25,7 +25,7 @@ public class Usuario {
         this.email = email;
         this.rol = rol;
         this.activo = true;
-        this.fechaRegistro = Timestamp.now(); // ✅ Fecha y hora actuales
+        this.fechaRegistro = Timestamp.now();
     }
 
     // Getters y Setters
@@ -73,8 +73,23 @@ public class Usuario {
         return fechaRegistro;
     }
 
-    public void setFechaRegistro(Timestamp fechaRegistro) {
-        this.fechaRegistro = fechaRegistro;
+    /**
+     * ✅ Setter flexible que acepta tanto Timestamp como Long
+     */
+    public void setFechaRegistro(Object fechaRegistro) {
+        if (fechaRegistro instanceof Timestamp) {
+            this.fechaRegistro = (Timestamp) fechaRegistro;
+        } else if (fechaRegistro instanceof Long) {
+            // Convertir Long (milisegundos) a Timestamp
+            long millis = (Long) fechaRegistro;
+            this.fechaRegistro = new Timestamp(millis / 1000, (int) ((millis % 1000) * 1000000));
+        } else if (fechaRegistro == null) {
+            // Si no existe fecha, usa la actual
+            this.fechaRegistro = Timestamp.now();
+        } else {
+            // Tipo desconocido
+            this.fechaRegistro = null;
+        }
     }
 
     public boolean isActivo() {

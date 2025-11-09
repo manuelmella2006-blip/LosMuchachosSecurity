@@ -1,117 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- res/layout/item_usuario.xml -->
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="12dp"
-    app:cardElevation="2dp"
-    app:cardBackgroundColor="@color/white">
+    app:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:gravity="center_vertical">
+        android:orientation="horizontal">
 
-        <!-- Avatar -->
-        <TextView
-            android:id="@+id/tvAvatarUsuario"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:text="👤"
-            android:textSize="32sp"
-            android:gravity="center"
-            android:background="@color/ust_green_light"
-            android:layout_marginEnd="16dp"/>
+        <!-- Indicador lateral de rol -->
+        <View
+            android:id="@+id/indicadorRol"
+            android:layout_width="6dp"
+            android:layout_height="match_parent"
+            android:background="@color/ust_green_primary" />
 
-        <!-- Información del usuario -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <TextView
-                android:id="@+id/tvNombreUsuario"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nombre Usuario"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_primary"
-                android:fontFamily="sans-serif-medium"
-                android:layout_marginBottom="4dp"/>
-
-            <TextView
-                android:id="@+id/tvEmailUsuario"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="email@ejemplo.com"
-                android:textSize="14sp"
-                android:textColor="@color/text_secondary"
-                android:layout_marginBottom="4dp"/>
-
+            <!-- Nombre y Rol -->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:layout_marginBottom="4dp">
 
-                <!-- Badge de Rol -->
                 <TextView
-                    android:id="@+id/tvRolUsuario"
+                    android:id="@+id/tvNombre"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Nombre del Usuario"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary" />
+
+                <TextView
+                    android:id="@+id/tvRol"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Admin"
+                    android:text="ADMIN"
                     android:textSize="12sp"
-                    android:textColor="@color/white"
-                    android:background="@color/ust_green_primary"
+                    android:textStyle="bold"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:layout_marginEnd="8dp"/>
+                    android:background="@drawable/bg_rol_badge"
+                    android:textColor="@color/ust_green_primary" />
+            </LinearLayout>
 
-                <!-- Badge de Estado -->
+            <!-- Email -->
+            <TextView
+                android:id="@+id/tvEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="usuario@email.com"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"
+                android:layout_marginBottom="4dp"
+                android:drawablePadding="6dp"
+                app:drawableStartCompat="@android:drawable/ic_dialog_email"
+                app:drawableTint="@color/text_secondary" />
+
+            <!-- Fecha de registro y estado -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp">
+
                 <TextView
-                    android:id="@+id/tvEstadoUsuario"
+                    android:id="@+id/tvFecha"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Registrado: 01/01/2025"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_tertiary" />
+
+                <TextView
+                    android:id="@+id/tvEstado"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Activo"
+                    android:text="✅ Activo"
                     android:textSize="12sp"
-                    android:textColor="@color/white"
-                    android:background="@color/success"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="4dp"/>
+                    android:textStyle="bold"
+                    android:textColor="@color/success" />
+            </LinearLayout>
+
+            <!-- Botones de acción -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:layout_marginTop="12dp">
+
+                <ImageButton
+                    android:id="@+id/btnCambiarRol"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@android:drawable/ic_menu_rotate"
+                    android:contentDescription="Cambiar rol"
+                    app:tint="@color/ust_green_primary"
+                    android:layout_marginEnd="4dp" />
+
+                <ImageButton
+                    android:id="@+id/btnEditar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@android:drawable/ic_menu_edit"
+                    android:contentDescription="Editar usuario"
+                    app:tint="@color/ust_green_primary"
+                    android:layout_marginEnd="4dp" />
+
+                <ImageButton
+                    android:id="@+id/btnEliminar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@android:drawable/ic_menu_delete"
+                    android:contentDescription="Eliminar usuario"
+                    app:tint="@color/error" />
             </LinearLayout>
         </LinearLayout>
-
-        <!-- Botones de acción -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!-- Botón Editar -->
-            <ImageButton
-                android:id="@+id/btnEditarUsuario"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@android:drawable/ic_menu_edit"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Editar"
-                android:layout_marginBottom="4dp"/>
-
-            <!-- Botón Eliminar -->
-            <ImageButton
-                android:id="@+id/btnEliminarUsuario"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@android:drawable/ic_menu_delete"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Eliminar"/>
-        </LinearLayout>
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

@@ -1,50 +1,37 @@
 package com.example.losmuchachossecurity.ui.admin;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.losmuchachossecurity.R;
 import com.example.losmuchachossecurity.model.Usuario;
+import com.google.firebase.Timestamp;
+
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Adapter para mostrar la lista de usuarios en el RecyclerView
- */
 public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.UsuarioViewHolder> {
 
     private List<Usuario> listaUsuarios;
-    private Context context;
-    private OnEditarListener onEditarListener;
-    private OnEliminarListener onEliminarListener;
+    private OnUsuarioClickListener listener;
 
-    // Interfaces para callbacks
-    public interface OnEditarListener {
-        void onEditar(Usuario usuario);
+    public interface OnUsuarioClickListener {
+        void onEditarClick(Usuario usuario);
+        void onEliminarClick(Usuario usuario);
+        void onCambiarRolClick(Usuario usuario);
     }
 
-    public interface OnEliminarListener {
-        void onEliminar(Usuario usuario);
-    }
-
-    public UsuarioAdapter(List<Usuario> listaUsuarios, Context context) {
+    public UsuarioAdapter(List<Usuario> listaUsuarios, OnUsuarioClickListener listener) {
         this.listaUsuarios = listaUsuarios;
-        this.context = context;
-    }
-
-    public void setOnEditarListener(OnEditarListener listener) {
-        this.onEditarListener = listener;
-    }
-
-    public void setOnEliminarListener(OnEliminarListener listener) {
-        this.onEliminarListener = listener;
+        this.listener = listener;
     }
 
     @NonNull
@@ -58,7 +45,7 @@ public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.UsuarioV
     @Override
     public void onBindViewHolder(@NonNull UsuarioViewHolder holder, int position) {
         Usuario usuario = listaUsuarios.get(position);
-        holder.bind(usuario);
+        holder.bind(usuario, listener);
     }
 
     @Override
@@ -66,79 +53,70 @@ public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.UsuarioV
         return listaUsuarios.size();
     }
 
-    /**
-     * ViewHolder para cada item de usuario
-     */
-    class UsuarioViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvAvatar, tvNombre, tvEmail, tvRol, tvEstado;
-        private ImageButton btnEditar, btnEliminar;
+    static class UsuarioViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView tvNombre;
+        private TextView tvEmail;
+        private TextView tvRol;
+        private TextView tvFecha;
+        private TextView tvEstado;
+        private ImageButton btnEditar;
+        private ImageButton btnEliminar;
+        private ImageButton btnCambiarRol;
+        private View indicadorRol;
 
         public UsuarioViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvAvatar = itemView.findViewById(R.id.tvAvatarUsuario);
-            tvNombre = itemView.findViewById(R.id.tvNombreUsuario);
-            tvEmail = itemView.findViewById(R.id.tvEmailUsuario);
-            tvRol = itemView.findViewById(R.id.tvRolUsuario);
-            tvEstado = itemView.findViewById(R.id.tvEstadoUsuario);
-            btnEditar = itemView.findViewById(R.id.btnEditarUsuario);
-            btnEliminar = itemView.findViewById(R.id.btnEliminarUsuario);
+
+            tvNombre = itemView.findViewById(R.id.tvNombre);
+            tvEmail = itemView.findViewById(R.id.tvEmail);
+            tvRol = itemView.findViewById(R.id.tvRol);
+            tvFecha = itemView.findViewById(R.id.tvFecha);
+            tvEstado = itemView.findViewById(R.id.tvEstado);
+            btnEditar = itemView.findViewById(R.id.btnEditar);
+            btnEliminar = itemView.findViewById(R.id.btnEliminar);
+            btnCambiarRol = itemView.findViewById(R.id.btnCambiarRol);
+            indicadorRol = itemView.findViewById(R.id.indicadorRol);
         }
 
-        public void bind(Usuario usuario) {
-            // Avatar (primera letra del nombre)
-            if (usuario.getNombre() != null && !usuario.getNombre().isEmpty()) {
-                String inicial = usuario.getNombre().substring(0, 1).toUpperCase();
-                tvAvatar.setText(inicial);
-            } else {
-                tvAvatar.setText("?");
-            }
-
-            // Información básica
+        public void bind(Usuario usuario, OnUsuarioClickListener listener) {
             tvNombre.setText(usuario.getNombre());
             tvEmail.setText(usuario.getEmail());
 
-            // Rol con color
+            // Configurar rol
             if (usuario.isAdmin()) {
-                tvRol.setText("Admin");
-                tvRol.setBackgroundColor(ContextCompat.getColor(context, R.color.ust_green_primary));
+                tvRol.setText("👨‍💼 ADMIN");
+                tvRol.setTextColor(itemView.getContext().getColor(R.color.admin_color));
+                indicadorRol.setBackgroundColor(itemView.getContext().getColor(R.color.admin_color));
             } else {
-                tvRol.setText("Usuario");
-                tvRol.setBackgroundColor(ContextCompat.getColor(context, R.color.info));
+                tvRol.setText("👤 USUARIO");
+                tvRol.setTextColor(itemView.getContext().getColor(R.color.usuario_color));
+                indicadorRol.setBackgroundColor(itemView.getContext().getColor(R.color.usuario_color));
             }
 
-            // Estado con color
+            // Fecha de registro usando Timestamp de Firestore
+            Timestamp timestamp = usuario.getFechaRegistro();
+            if (timestamp != null) {
+                Date fecha = timestamp.toDate();
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+                tvFecha.setText("Registrado: " + sdf.format(fecha));
+            } else {
+                tvFecha.setText("Fecha no disponible");
+            }
+
+            // Estado
             if (usuario.isActivo()) {
-                tvEstado.setText("Activo");
-                tvEstado.setBackgroundColor(ContextCompat.getColor(context, R.color.success));
-                tvEstado.setVisibility(View.VISIBLE);
+                tvEstado.setText("✅ Activo");
+                tvEstado.setTextColor(itemView.getContext().getColor(R.color.success));
             } else {
-                tvEstado.setText("Inactivo");
-                tvEstado.setBackgroundColor(ContextCompat.getColor(context, R.color.error));
-                tvEstado.setVisibility(View.VISIBLE);
+                tvEstado.setText("⛔ Inactivo");
+                tvEstado.setTextColor(itemView.getContext().getColor(R.color.error));
             }
 
-            // Botón Editar
-            btnEditar.setOnClickListener(v -> {
-                if (onEditarListener != null) {
-                    onEditarListener.onEditar(usuario);
-                }
-            });
-
-            // Botón Eliminar
-            btnEliminar.setOnClickListener(v -> {
-                if (onEliminarListener != null) {
-                    onEliminarListener.onEliminar(usuario);
-                }
-            });
+            // Listeners
+            btnEditar.setOnClickListener(v -> listener.onEditarClick(usuario));
+            btnEliminar.setOnClickListener(v -> listener.onEliminarClick(usuario));
+            btnCambiarRol.setOnClickListener(v -> listener.onCambiarRolClick(usuario));
         }
-    }
-
-    /**
-     * Actualiza la lista de usuarios
-     */
-    public void actualizarLista(List<Usuario> nuevaLista) {
-        this.listaUsuarios.clear();
-        this.listaUsuarios.addAll(nuevaLista);
-        notifyDataSetChanged();
     }
 }

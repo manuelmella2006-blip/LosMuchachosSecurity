@@ -43,4 +43,11 @@
     <!-- Overlay y Sombras -->
     <color name="overlay_dark">#80000000</color>
     <color name="shadow_light">#1A000000</color>
+
+    <!-- Colores de texto -->
+    <color name="text_tertiary">#9E9E9E</color>
+
+    <!-- Colores de roles -->
+    <color name="admin_color">#D32F2F</color>
+    <color name="usuario_color">#1976D2</color>
 </resources>
