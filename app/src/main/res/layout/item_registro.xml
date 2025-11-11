@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
+<!-- res/layout/item_registro.xml - LOS MUCHACHOS SECURITY -->
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp">
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="#383E70">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,9 +18,9 @@
         <!-- Indicador de color lateral -->
         <View
             android:id="@+id/indicadorColor"
-            android:layout_width="4dp"
+            android:layout_width="6dp"
             android:layout_height="match_parent"
-            android:background="#4CAF50" />
+            android:background="#28A745" />
 
         <!-- Contenido del registro -->
         <LinearLayout
@@ -35,7 +37,7 @@
                 android:text="ENTRADA"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="#4CAF50" />
+                android:textColor="#28A745" />
 
             <!-- Detalle -->
             <TextView
@@ -44,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:text="Plaza: P-01"
                 android:textSize="14sp"
-                android:textColor="@color/black"
+                android:textColor="#FFFFFF"
                 android:layout_marginTop="4dp" />
 
             <!-- Usuario -->
@@ -54,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:text="Usuario: Juan Pérez"
                 android:textSize="12sp"
-                android:textColor="@android:color/darker_gray"
+                android:textColor="#C5E5FD"
                 android:layout_marginTop="4dp" />
 
             <!-- Fecha y hora -->
@@ -64,11 +66,11 @@
                 android:layout_height="wrap_content"
                 android:text="08/11/2024 14:30"
                 android:textSize="12sp"
-                android:textColor="@android:color/darker_gray"
+                android:textColor="#C5E5FD"
                 android:layout_marginTop="4dp" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-</com.google.android.material.card.MaterialCardView>
+</androidx.cardview.widget.CardView>

@@ -1,68 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- res/layout/dialog_editar_usuario.xml - LOS MUCHACHOS SECURITY -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:background="#262B54">
 
     <!-- Título -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Editar Usuario"
+        android:text="✏️ Editar Usuario"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:fontFamily="sans-serif-medium"
         android:layout_marginBottom="16dp" />
 
     <!-- Campo Nombre -->
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_input_dark"
+        android:padding="12dp"
         android:layout_marginBottom="12dp"
-        android:hint="Nombre"
-        app:boxBackgroundMode="outline">
+        android:gravity="center_vertical">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etNombreEditar"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="👤"
+            android:textSize="20sp"
+            android:layout_marginEnd="8dp"/>
+
+        <EditText
+            android:id="@+id/etNombreEditar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Nombre"
+            android:textColorHint="#7A80A8"
+            android:textColor="#FFFFFF"
+            android:background="@android:color/transparent"
             android:inputType="textPersonName"
             android:maxLines="1" />
-    </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
-    <!-- Campo Email -->
-    <com.google.android.material.textfield.TextInputLayout
+    <!-- Campo Email (deshabilitado) -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_input_dark"
+        android:padding="12dp"
         android:layout_marginBottom="12dp"
-        android:hint="Email"
-        app:boxBackgroundMode="outline">
+        android:gravity="center_vertical"
+        android:alpha="0.6">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etEmailEditar"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="✉"
+            android:textSize="20sp"
+            android:layout_marginEnd="8dp"/>
+
+        <EditText
+            android:id="@+id/etEmailEditar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Email"
+            android:textColorHint="#7A80A8"
+            android:textColor="#FFFFFF"
+            android:background="@android:color/transparent"
             android:inputType="textEmailAddress"
             android:maxLines="1"
             android:enabled="false" />
-    </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
     <!-- Campo Teléfono -->
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_input_dark"
+        android:padding="12dp"
         android:layout_marginBottom="12dp"
-        android:hint="Teléfono"
-        app:boxBackgroundMode="outline">
+        android:gravity="center_vertical">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etTelefonoEditar"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="📞"
+            android:textSize="20sp"
+            android:layout_marginEnd="8dp"/>
+
+        <EditText
+            android:id="@+id/etTelefonoEditar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Teléfono"
+            android:textColorHint="#7A80A8"
+            android:textColor="#FFFFFF"
+            android:background="@android:color/transparent"
             android:inputType="phone"
             android:maxLines="1" />
-    </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
     <!-- Selector de Rol -->
     <TextView
@@ -70,7 +117,7 @@
         android:layout_height="wrap_content"
         android:text="Rol"
         android:textSize="14sp"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="#C5E5FD"
         android:layout_marginBottom="8dp" />
 
     <RadioGroup
@@ -85,14 +132,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Usuario" />
+            android:text="Usuario"
+            android:textColor="#FFFFFF"
+            android:buttonTint="#85335E" />
 
         <RadioButton
             android:id="@+id/rbAdminEditar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Admin" />
+            android:text="Admin"
+            android:textColor="#FFFFFF"
+            android:buttonTint="#85335E" />
     </RadioGroup>
 
     <!-- Selector de Estado -->
@@ -101,7 +152,7 @@
         android:layout_height="wrap_content"
         android:text="Estado"
         android:textSize="14sp"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="#C5E5FD"
         android:layout_marginBottom="8dp" />
 
     <RadioGroup
@@ -116,14 +167,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Activo" />
+            android:text="Activo"
+            android:textColor="#FFFFFF"
+            android:buttonTint="#28A745" />
 
         <RadioButton
             android:id="@+id/rbInactivoEditar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Inactivo" />
+            android:text="Inactivo"
+            android:textColor="#FFFFFF"
+            android:buttonTint="#952929" />
     </RadioGroup>
 
     <!-- Botones -->
@@ -138,14 +193,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancelar"
-            android:layout_marginEnd="8dp"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#383E70"
+            android:layout_marginEnd="8dp" />
 
         <Button
             android:id="@+id/btnGuardarEditar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Guardar" />
+            android:text="Guardar"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/bg_button_rojo" />
     </LinearLayout>
 
 </LinearLayout>

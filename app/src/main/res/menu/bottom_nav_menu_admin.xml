@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- res/menu/bottom_nav_menu_admin.xml - LOS MUCHACHOS SECURITY -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
@@ -19,6 +20,6 @@
     <item
         android:id="@+id/nav_config_admin"
         android:icon="@drawable/ic_settings"
-        android:title="Administración" />
+        android:title="Configuración" />
 
 </menu>

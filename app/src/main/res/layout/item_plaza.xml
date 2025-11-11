@@ -1,48 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
+<!-- res/layout/item_plaza.xml - LOS MUCHACHOS SECURITY -->
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layoutPlaza"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp">
+    android:layout_margin="6dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="#28A745">
 
     <LinearLayout
-        android:id="@+id/layoutPlaza"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
+        android:padding="18dp"
         android:gravity="center">
-
-        <!-- Ícono de Plaza -->
-        <ImageView
-            android:id="@+id/ivIconoPlaza"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/ic_parking"
-            android:layout_marginBottom="8dp" />
 
         <!-- Número de Plaza -->
         <TextView
             android:id="@+id/tvNumeroPlaza"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="P-01"
-            android:textSize="18sp"
+            android:text="A-1"
+            android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="@color/black" />
+            android:textColor="#FFFFFF"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginBottom="4dp"/>
 
         <!-- Estado -->
         <TextView
             android:id="@+id/tvEstadoPlaza"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Disponible"
-            android:textSize="14sp"
-            android:layout_marginTop="4dp" />
+            android:text="Libre"
+            android:textSize="12sp"
+            android:textColor="#FFFFFF"
+            android:alpha="0.9"/>
 
     </LinearLayout>
 
-</com.google.android.material.card.MaterialCardView>
+</androidx.cardview.widget.CardView>
+
+    <!-- NOTA: El color de fondo cambiará dinámicamente desde el código:
+         - Libre: #28A745 (verde)
+         - Ocupado: #952929 (rojo oscuro)
+         - Reservado: #FFC107 (amarillo)
+    -->

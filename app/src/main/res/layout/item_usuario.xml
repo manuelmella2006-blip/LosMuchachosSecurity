@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- res/layout/item_usuario.xml -->
+<!-- res/layout/item_usuario.xml - LOS MUCHACHOS SECURITY -->
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,7 +7,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="12dp"
-    app:cardElevation="4dp">
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="#383E70">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +20,7 @@
             android:id="@+id/indicadorRol"
             android:layout_width="6dp"
             android:layout_height="match_parent"
-            android:background="@color/ust_green_primary" />
+            android:background="#85335E" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -44,7 +45,7 @@
                     android:text="Nombre del Usuario"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="@color/text_primary" />
+                    android:textColor="#FFFFFF" />
 
                 <TextView
                     android:id="@+id/tvRol"
@@ -55,22 +56,34 @@
                     android:textStyle="bold"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:background="@drawable/bg_rol_badge"
-                    android:textColor="@color/ust_green_primary" />
+                    android:background="@drawable/bg_rol_badge_muchachos"
+                    android:textColor="#FFFFFF" />
             </LinearLayout>
 
             <!-- Email -->
-            <TextView
-                android:id="@+id/tvEmail"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="usuario@email.com"
-                android:textSize="14sp"
-                android:textColor="@color/text_secondary"
-                android:layout_marginBottom="4dp"
-                android:drawablePadding="6dp"
-                app:drawableStartCompat="@android:drawable/ic_dialog_email"
-                app:drawableTint="@color/text_secondary" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="✉"
+                    android:textSize="14sp"
+                    android:textColor="#C5E5FD"
+                    android:layout_marginEnd="6dp"/>
+
+                <TextView
+                    android:id="@+id/tvEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="usuario@email.com"
+                    android:textSize="14sp"
+                    android:textColor="#C5E5FD"/>
+            </LinearLayout>
 
             <!-- Fecha de registro y estado -->
             <LinearLayout
@@ -86,7 +99,7 @@
                     android:layout_weight="1"
                     android:text="Registrado: 01/01/2025"
                     android:textSize="12sp"
-                    android:textColor="@color/text_tertiary" />
+                    android:textColor="#7A80A8" />
 
                 <TextView
                     android:id="@+id/tvEstado"
@@ -95,7 +108,7 @@
                     android:text="✅ Activo"
                     android:textSize="12sp"
                     android:textStyle="bold"
-                    android:textColor="@color/success" />
+                    android:textColor="#28A745" />
             </LinearLayout>
 
             <!-- Botones de acción -->
@@ -113,7 +126,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@android:drawable/ic_menu_rotate"
                     android:contentDescription="Cambiar rol"
-                    app:tint="@color/ust_green_primary"
+                    app:tint="#C5E5FD"
                     android:layout_marginEnd="4dp" />
 
                 <ImageButton
@@ -123,7 +136,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@android:drawable/ic_menu_edit"
                     android:contentDescription="Editar usuario"
-                    app:tint="@color/ust_green_primary"
+                    app:tint="#C5E5FD"
                     android:layout_marginEnd="4dp" />
 
                 <ImageButton
@@ -133,7 +146,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@android:drawable/ic_menu_delete"
                     android:contentDescription="Eliminar usuario"
-                    app:tint="@color/error" />
+                    app:tint="#952929" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

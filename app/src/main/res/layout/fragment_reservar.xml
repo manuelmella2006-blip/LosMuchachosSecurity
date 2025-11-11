@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- res/layout/fragment_reservar.xml -->
+<!-- res/layout/fragment_reservar.xml - LOS MUCHACHOS SECURITY -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_secondary">
+    android:background="#0B0E2A">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Reservar Estacionamiento"
-            android:textColor="@color/text_primary"
+            android:textColor="#FFFFFF"
             android:textSize="24sp"
             android:textStyle="bold"
             android:fontFamily="sans-serif-medium"
@@ -27,16 +27,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Selecciona una plaza disponible o completa el formulario para reservar"
-            android:textColor="@color/text_secondary"
+            android:textColor="#C5E5FD"
             android:textSize="14sp"
             android:layout_marginBottom="24dp"/>
 
-        <!-- 🔹 Lista de Plazas Disponibles -->
+        <!-- Lista de Plazas Disponibles -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="12dp"
             app:cardElevation="2dp"
+            app:cardBackgroundColor="#383E70"
             android:layout_marginBottom="16dp">
 
             <LinearLayout
@@ -51,10 +52,9 @@
                     android:text="Plazas Disponibles"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="@color/text_primary"
+                    android:textColor="#FFFFFF"
                     android:layout_marginBottom="12dp"/>
 
-                <!-- RecyclerView de plazas -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewDisponibles"
                     android:layout_width="match_parent"
@@ -64,7 +64,6 @@
                     android:padding="4dp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-        <!-- 🔹 Fin de lista -->
 
         <!-- Formulario -->
         <androidx.cardview.widget.CardView
@@ -72,6 +71,7 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="12dp"
             app:cardElevation="2dp"
+            app:cardBackgroundColor="#383E70"
             android:layout_marginBottom="16dp">
 
             <LinearLayout
@@ -80,14 +80,13 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <!-- Título del formulario -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Datos de Reserva"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="@color/text_primary"
+                    android:textColor="#FFFFFF"
                     android:layout_marginBottom="16dp"/>
 
                 <!-- Campo Plaza -->
@@ -96,14 +95,14 @@
                     android:layout_height="wrap_content"
                     android:text="Número de Plaza"
                     android:textSize="14sp"
-                    android:textColor="@color/text_primary"
+                    android:textColor="#C5E5FD"
                     android:layout_marginBottom="8dp"/>
 
                 <Spinner
                     android:id="@+id/spinnerPlaza"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:background="@drawable/bg_card_white"
+                    android:background="@drawable/bg_input_dark"
                     android:padding="12dp"
                     android:layout_marginBottom="16dp"/>
 
@@ -113,41 +112,39 @@
                     android:layout_height="wrap_content"
                     android:text="Fecha de Reserva"
                     android:textSize="14sp"
-                    android:textColor="@color/text_primary"
+                    android:textColor="#C5E5FD"
                     android:layout_marginBottom="8dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="16dp">
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/bg_input_dark"
+                    android:padding="12dp"
+                    android:gravity="center_vertical">
 
-                    <com.google.android.material.textfield.TextInputLayout
+                    <EditText
+                        android:id="@+id/etFecha"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        app:boxBackgroundMode="outline"
-                        app:boxStrokeColor="@color/ust_green_primary"
-                        app:hintTextColor="@color/ust_green_primary">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etFecha"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Seleccionar fecha"
-                            android:inputType="none"
-                            android:focusable="false"
-                            android:clickable="true"/>
-                    </com.google.android.material.textfield.TextInputLayout>
+                        android:hint="Seleccionar fecha"
+                        android:textColorHint="#7A80A8"
+                        android:textColor="#FFFFFF"
+                        android:background="@android:color/transparent"
+                        android:inputType="none"
+                        android:focusable="false"
+                        android:clickable="true"/>
 
                     <ImageButton
                         android:id="@+id/btnCalendar"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:src="@android:drawable/ic_menu_my_calendar"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:layout_marginStart="8dp"
-                        android:contentDescription="Seleccionar fecha"/>
+                        android:contentDescription="Seleccionar fecha"
+                        app:tint="#C5E5FD"/>
                 </LinearLayout>
 
                 <!-- Campo Hora Inicio -->
@@ -156,41 +153,39 @@
                     android:layout_height="wrap_content"
                     android:text="Hora de Inicio"
                     android:textSize="14sp"
-                    android:textColor="@color/text_primary"
+                    android:textColor="#C5E5FD"
                     android:layout_marginBottom="8dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="16dp">
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/bg_input_dark"
+                    android:padding="12dp"
+                    android:gravity="center_vertical">
 
-                    <com.google.android.material.textfield.TextInputLayout
+                    <EditText
+                        android:id="@+id/etHoraInicio"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        app:boxBackgroundMode="outline"
-                        app:boxStrokeColor="@color/ust_green_primary"
-                        app:hintTextColor="@color/ust_green_primary">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etHoraInicio"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Hora inicio"
-                            android:inputType="none"
-                            android:focusable="false"
-                            android:clickable="true"/>
-                    </com.google.android.material.textfield.TextInputLayout>
+                        android:hint="Hora inicio"
+                        android:textColorHint="#7A80A8"
+                        android:textColor="#FFFFFF"
+                        android:background="@android:color/transparent"
+                        android:inputType="none"
+                        android:focusable="false"
+                        android:clickable="true"/>
 
                     <ImageButton
                         android:id="@+id/btnTimeInicio"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:src="@android:drawable/ic_menu_recent_history"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:layout_marginStart="8dp"
-                        android:contentDescription="Seleccionar hora"/>
+                        android:contentDescription="Seleccionar hora"
+                        app:tint="#C5E5FD"/>
                 </LinearLayout>
 
                 <!-- Campo Hora Fin -->
@@ -199,41 +194,39 @@
                     android:layout_height="wrap_content"
                     android:text="Hora de Fin"
                     android:textSize="14sp"
-                    android:textColor="@color/text_primary"
+                    android:textColor="#C5E5FD"
                     android:layout_marginBottom="8dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="16dp">
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/bg_input_dark"
+                    android:padding="12dp"
+                    android:gravity="center_vertical">
 
-                    <com.google.android.material.textfield.TextInputLayout
+                    <EditText
+                        android:id="@+id/etHoraFin"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        app:boxBackgroundMode="outline"
-                        app:boxStrokeColor="@color/ust_green_primary"
-                        app:hintTextColor="@color/ust_green_primary">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etHoraFin"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Hora fin"
-                            android:inputType="none"
-                            android:focusable="false"
-                            android:clickable="true"/>
-                    </com.google.android.material.textfield.TextInputLayout>
+                        android:hint="Hora fin"
+                        android:textColorHint="#7A80A8"
+                        android:textColor="#FFFFFF"
+                        android:background="@android:color/transparent"
+                        android:inputType="none"
+                        android:focusable="false"
+                        android:clickable="true"/>
 
                     <ImageButton
                         android:id="@+id/btnTimeFin"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:src="@android:drawable/ic_menu_recent_history"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:layout_marginStart="8dp"
-                        android:contentDescription="Seleccionar hora"/>
+                        android:contentDescription="Seleccionar hora"
+                        app:tint="#C5E5FD"/>
                 </LinearLayout>
 
                 <!-- Botón Reservar -->
@@ -242,10 +235,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:text="📝 Confirmar Reserva"
-                    android:textColor="@color/white"
+                    android:textColor="#FFFFFF"
                     android:textStyle="bold"
                     android:textSize="16sp"
-                    android:backgroundTint="@color/ust_green_primary"
+                    android:background="@drawable/bg_button_rojo"
                     android:layout_marginTop="8dp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -256,7 +249,7 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="12dp"
             app:cardElevation="2dp"
-            app:cardBackgroundColor="@color/info">
+            app:cardBackgroundColor="#17A2B8">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -270,7 +263,7 @@
                     android:text="ℹ️ Información"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="@color/white"
+                    android:textColor="#FFFFFF"
                     android:layout_marginBottom="8dp"/>
 
                 <TextView
@@ -278,7 +271,7 @@
                     android:layout_height="wrap_content"
                     android:text="Las reservas se confirman automáticamente si la plaza está disponible. Recibirás una notificación de confirmación."
                     android:textSize="14sp"
-                    android:textColor="@color/white"
+                    android:textColor="#FFFFFF"
                     android:alpha="0.9"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

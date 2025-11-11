@@ -25,8 +25,9 @@ import java.util.List;
 
 public class MonitoreoFragment extends Fragment {
 
-    private TextView tvWelcome, tvEstadoGeneral, tvDisponiblesAdmin, tvOcupadosAdmin;
-    private CardView cardMaqueta, cardDisponibles, cardOcupadas;
+    // ✅ CORREGIDO: Solo los IDs que existen en fragment_monitoreo.xml
+    private TextView tvDisponiblesAdmin, tvOcupadosAdmin;
+    private CardView cardMaqueta;
     private RecyclerView recyclerViewPlazasAdmin;
     private PlazaRepository plazaRepository;
     private FirebaseAuth mAuth;
@@ -41,9 +42,9 @@ public class MonitoreoFragment extends Fragment {
         plazaRepository = new PlazaRepository();
 
         initViews(view);
-        loadUserInfo();
         cargarMonitoreo();
 
+        // Listener para ir a Maqueta 3D
         if (cardMaqueta != null) {
             cardMaqueta.setOnClickListener(v -> {
                 Intent intent = new Intent(getActivity(), Maqueta3DActivity.class);
@@ -55,28 +56,14 @@ public class MonitoreoFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        tvWelcome = view.findViewById(R.id.tvWelcome);
-        tvEstadoGeneral = view.findViewById(R.id.tvEstadoGeneral);
+        // ✅ Solo inicializamos lo que EXISTE en el XML nuevo
         tvDisponiblesAdmin = view.findViewById(R.id.tvDisponiblesAdmin);
         tvOcupadosAdmin = view.findViewById(R.id.tvOcupadosAdmin);
-
         cardMaqueta = view.findViewById(R.id.cardMaqueta);
-        cardDisponibles = view.findViewById(R.id.cardDisponibles);
-        cardOcupadas = view.findViewById(R.id.cardOcupadas);
-
         recyclerViewPlazasAdmin = view.findViewById(R.id.recyclerViewPlazasAdmin);
-        recyclerViewPlazasAdmin.setLayoutManager(new GridLayoutManager(getContext(), 3));
-    }
 
-    private void loadUserInfo() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            String email = user.getEmail();
-            String nombre = email != null ? email.split("@")[0] : "Administrador";
-            if (tvWelcome != null) {
-                tvWelcome.setText("¡Hola, " + capitalize(nombre) + "!");
-            }
-        }
+        // ✅ IMPORTANTE: Cambiar a 5 columnas para vista en tiempo real
+        recyclerViewPlazasAdmin.setLayoutManager(new GridLayoutManager(getContext(), 5));
     }
 
     private void cargarMonitoreo() {
@@ -85,11 +72,11 @@ public class MonitoreoFragment extends Fragment {
             public void onPlazasObtenidas(List<Plaza> plazas) {
                 if (plazas != null && !plazas.isEmpty()) {
                     actualizarEstadisticas(plazas);
-                    // recyclerViewPlazasAdmin.setAdapter(new PlazaAdapter(plazas));
+                    // ✅ DESCOMENTAR cuando tengas PlazaAdminAdapter listo
+                    // recyclerViewPlazasAdmin.setAdapter(new PlazaAdminAdapter(plazas));
                 } else {
                     tvDisponiblesAdmin.setText("0");
                     tvOcupadosAdmin.setText("0");
-                    if (tvEstadoGeneral != null) tvEstadoGeneral.setText("Sin datos");
                 }
             }
 
@@ -97,7 +84,6 @@ public class MonitoreoFragment extends Fragment {
             public void onError(String mensaje) {
                 tvDisponiblesAdmin.setText("0");
                 tvOcupadosAdmin.setText("0");
-                if (tvEstadoGeneral != null) tvEstadoGeneral.setText("Sin conexión");
             }
         });
     }
@@ -105,16 +91,16 @@ public class MonitoreoFragment extends Fragment {
     private void actualizarEstadisticas(List<Plaza> plazas) {
         int disponibles = 0;
         int ocupados = 0;
+
         for (Plaza p : plazas) {
-            if (p.isDisponible()) disponibles++; else ocupados++;
+            if (p.isDisponible()) {
+                disponibles++;
+            } else {
+                ocupados++;
+            }
         }
+
         tvDisponiblesAdmin.setText(String.valueOf(disponibles));
         tvOcupadosAdmin.setText(String.valueOf(ocupados));
-        if (tvEstadoGeneral != null) tvEstadoGeneral.setText("Sistema Operativo");
-    }
-
-    private String capitalize(String text) {
-        if (text == null || text.isEmpty()) return text;
-        return text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase();
     }
 }

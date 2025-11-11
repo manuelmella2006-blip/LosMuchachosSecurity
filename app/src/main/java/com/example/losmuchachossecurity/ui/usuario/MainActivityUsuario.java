@@ -31,7 +31,7 @@ public class MainActivityUsuario extends AppCompatActivity {
 
         // Configurar Bottom Navigation
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
+        bottomNavigationView.setOnItemSelectedListener(navListener);
 
         // Cargar el fragmento inicial
         if (savedInstanceState == null) {
@@ -41,8 +41,8 @@ public class MainActivityUsuario extends AppCompatActivity {
         }
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
+    private final BottomNavigationView.OnItemSelectedListener navListener =
+            new BottomNavigationView.OnItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     Fragment selectedFragment = null;

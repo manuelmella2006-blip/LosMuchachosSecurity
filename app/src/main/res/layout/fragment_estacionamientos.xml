@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- res/layout/fragment_estacionamientos.xml -->
+<!-- res/layout/fragment_estacionamientos.xml - LOS MUCHACHOS SECURITY -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_secondary">
+    android:background="#0B0E2A">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Estacionamientos Disponibles"
-            android:textColor="@color/text_primary"
+            android:textColor="#FFFFFF"
             android:textSize="24sp"
             android:textStyle="bold"
             android:fontFamily="sans-serif-medium"
@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Consulta en tiempo real la disponibilidad de plazas"
-            android:textColor="@color/text_secondary"
+            android:textColor="#C5E5FD"
             android:textSize="14sp"
             android:layout_marginBottom="24dp"/>
 
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="12dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/ust_green_light"
+            app:cardBackgroundColor="#383E70"
             android:layout_marginBottom="16dp">
 
             <LinearLayout
@@ -68,20 +68,20 @@
                         android:text="0"
                         android:textSize="28sp"
                         android:textStyle="bold"
-                        android:textColor="@color/ust_green_primary"/>
+                        android:textColor="#28A745"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Disponibles"
                         android:textSize="12sp"
-                        android:textColor="@color/gray_dark"/>
+                        android:textColor="#C5E5FD"/>
                 </LinearLayout>
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:background="@color/divider"
+                    android:background="#262B54"
                     android:layout_marginHorizontal="8dp"/>
 
                 <!-- Ocupadas -->
@@ -106,23 +106,23 @@
                         android:text="0"
                         android:textSize="28sp"
                         android:textStyle="bold"
-                        android:textColor="@color/error"/>
+                        android:textColor="#952929"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Ocupadas"
                         android:textSize="12sp"
-                        android:textColor="@color/gray_dark"/>
+                        android:textColor="#C5E5FD"/>
                 </LinearLayout>
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:background="@color/divider"
+                    android:background="#262B54"
                     android:layout_marginHorizontal="8dp"/>
 
-                <!-- 🔹 Total -->
+                <!-- Total -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -144,14 +144,14 @@
                         android:text="0"
                         android:textSize="28sp"
                         android:textStyle="bold"
-                        android:textColor="@color/text_primary"/>
+                        android:textColor="#FFFFFF"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Total"
                         android:textSize="12sp"
-                        android:textColor="@color/gray_dark"/>
+                        android:textColor="#C5E5FD"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -164,7 +164,7 @@
             android:text="Estado de Plazas"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/text_primary"
+            android:textColor="#FFFFFF"
             android:layout_marginBottom="12dp"/>
 
         <!-- RecyclerView de Plazas -->
@@ -197,7 +197,7 @@
                 android:layout_height="wrap_content"
                 android:text="No hay plazas disponibles"
                 android:textSize="16sp"
-                android:textColor="@color/text_secondary"/>
+                android:textColor="#C5E5FD"/>
         </LinearLayout>
 
     </LinearLayout>

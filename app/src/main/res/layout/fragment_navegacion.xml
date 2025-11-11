@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- res/layout/fragment_navegacion.xml -->
+<!-- res/layout/fragment_navegacion.xml - LOS MUCHACHOS SECURITY -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_secondary">
+    android:background="#0B0E2A">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Navegación"
-            android:textColor="@color/text_primary"
+            android:textColor="#FFFFFF"
             android:textSize="24sp"
             android:textStyle="bold"
             android:fontFamily="sans-serif-medium"
@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cómo llegar al estacionamiento"
-            android:textColor="@color/text_secondary"
+            android:textColor="#C5E5FD"
             android:textSize="14sp"
             android:layout_marginBottom="24dp"/>
 
@@ -37,6 +37,7 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="12dp"
             app:cardElevation="4dp"
+            app:cardBackgroundColor="#383E70"
             android:layout_marginBottom="16dp">
 
             <LinearLayout
@@ -51,7 +52,7 @@
                     android:text="📍 Ubicación"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="@color/text_primary"
+                    android:textColor="#FFFFFF"
                     android:layout_marginBottom="12dp"/>
 
                 <TextView
@@ -60,7 +61,7 @@
                     android:text="Estacionamiento Los Muchachos Security"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="@color/text_primary"
+                    android:textColor="#FFFFFF"
                     android:layout_marginBottom="4dp"/>
 
                 <TextView
@@ -68,36 +69,26 @@
                     android:layout_height="wrap_content"
                     android:text="Universidad Santo Tomás"
                     android:textSize="14sp"
-                    android:textColor="@color/text_secondary"
+                    android:textColor="#C5E5FD"
                     android:layout_marginBottom="4dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Av. Ejército 146, Concepción"
-                    android:textSize="14sp"
-                    android:textColor="@color/text_secondary"
-                    android:layout_marginBottom="16dp"/>
-
-                <!-- 🔹 TextViews agregados -->
                 <TextView
                     android:id="@+id/tvDireccion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Dirección: Av. Principal #123, Ciudad"
+                    android:text="Av. Ejército 146, Concepción"
                     android:textSize="14sp"
-                    android:textColor="@color/text_primary"
-                    android:layout_marginBottom="4dp"/>
+                    android:textColor="#C5E5FD"
+                    android:layout_marginBottom="16dp"/>
 
                 <TextView
                     android:id="@+id/tvInstrucciones"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Instrucciones: Desde la entrada principal, gire a la derecha..."
+                    android:text="Instrucciones: Desde la entrada principal..."
                     android:textSize="14sp"
-                    android:textColor="@color/text_secondary"
+                    android:textColor="#C5E5FD"
                     android:layout_marginBottom="16dp"/>
-                <!-- 🔹 Fin agregado -->
 
                 <!-- Botones -->
                 <Button
@@ -105,8 +96,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="🗺️ Abrir en Google Maps"
-                    android:textColor="@color/white"
-                    android:backgroundTint="@color/ust_green_primary"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/bg_button_rojo"
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp"/>
 
@@ -115,8 +106,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="📍 Ver Mapa Interno"
-                    android:textColor="@color/white"
-                    android:backgroundTint="@color/ust_green_secondary"
+                    android:textColor="#FFFFFF"
+                    android:backgroundTint="#262B54"
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp"/>
 
@@ -125,18 +116,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="🔗 Compartir Ubicación"
-                    android:textColor="@color/white"
-                    android:backgroundTint="@color/ust_green_dark"
+                    android:textColor="#FFFFFF"
+                    android:backgroundTint="#6B2949"
                     android:textStyle="bold"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Card Mapa Estático (Placeholder) -->
+        <!-- Card Mapa Estático -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="300dp"
             app:cardCornerRadius="12dp"
             app:cardElevation="4dp"
+            app:cardBackgroundColor="#383E70"
             android:layout_marginBottom="16dp">
 
             <LinearLayout
@@ -144,8 +136,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:padding="24dp"
-                android:background="@color/gray_light">
+                android:padding="24dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -160,7 +151,7 @@
                     android:text="Mapa del Campus"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="@color/text_primary"
+                    android:textColor="#FFFFFF"
                     android:layout_marginBottom="8dp"/>
 
                 <TextView
@@ -168,7 +159,7 @@
                     android:layout_height="wrap_content"
                     android:text="Ubicación del estacionamiento en el campus"
                     android:textSize="14sp"
-                    android:textColor="@color/text_secondary"
+                    android:textColor="#C5E5FD"
                     android:gravity="center"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -180,7 +171,7 @@
             android:text="Instrucciones de Acceso"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/text_primary"
+            android:textColor="#FFFFFF"
             android:layout_marginBottom="12dp"/>
 
         <androidx.cardview.widget.CardView
@@ -188,6 +179,7 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="12dp"
             app:cardElevation="2dp"
+            app:cardBackgroundColor="#383E70"
             android:layout_marginBottom="12dp">
 
             <LinearLayout
@@ -201,7 +193,7 @@
                     android:layout_height="wrap_content"
                     android:text="1️⃣ Ingreso por Av. Ejército"
                     android:textSize="14sp"
-                    android:textColor="@color/text_primary"
+                    android:textColor="#FFFFFF"
                     android:layout_marginBottom="8dp"/>
 
                 <TextView
@@ -209,7 +201,7 @@
                     android:layout_height="wrap_content"
                     android:text="2️⃣ Girar a la izquierda en el segundo portón"
                     android:textSize="14sp"
-                    android:textColor="@color/text_primary"
+                    android:textColor="#FFFFFF"
                     android:layout_marginBottom="8dp"/>
 
                 <TextView
@@ -217,7 +209,7 @@
                     android:layout_height="wrap_content"
                     android:text="3️⃣ El estacionamiento está a 50 metros"
                     android:textSize="14sp"
-                    android:textColor="@color/text_primary"
+                    android:textColor="#FFFFFF"
                     android:layout_marginBottom="8dp"/>
 
                 <TextView
@@ -225,7 +217,7 @@
                     android:layout_height="wrap_content"
                     android:text="4️⃣ La barrera se abrirá automáticamente"
                     android:textSize="14sp"
-                    android:textColor="@color/text_primary"/>
+                    android:textColor="#FFFFFF"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -235,7 +227,7 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="12dp"
             app:cardElevation="2dp"
-            app:cardBackgroundColor="@color/info">
+            app:cardBackgroundColor="#17A2B8">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -249,7 +241,7 @@
                     android:text="📞 Contacto de Emergencia"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="@color/white"
+                    android:textColor="#FFFFFF"
                     android:layout_marginBottom="8dp"/>
 
                 <TextView
@@ -257,7 +249,7 @@
                     android:layout_height="wrap_content"
                     android:text="Teléfono: +56 9 1234 5678\nCorreo: estacionamiento@santo.cl"
                     android:textSize="14sp"
-                    android:textColor="@color/white"
+                    android:textColor="#FFFFFF"
                     android:alpha="0.9"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

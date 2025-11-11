@@ -4,13 +4,15 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.losmuchachossecurity.R;
 import com.example.losmuchachossecurity.model.Plaza;
+
 import java.util.List;
 
 public class PlazaAdapter extends RecyclerView.Adapter<PlazaAdapter.PlazaViewHolder> {
@@ -47,15 +49,15 @@ public class PlazaAdapter extends RecyclerView.Adapter<PlazaAdapter.PlazaViewHol
 
     static class PlazaViewHolder extends RecyclerView.ViewHolder {
 
-        private LinearLayout layoutPlaza;
-        private ImageView ivIconoPlaza;
+        // ✅ CORREGIDO: Solo los IDs que existen en item_plaza.xml nuevo
+        private CardView layoutPlaza; // El card es el root ahora
         private TextView tvNumeroPlaza;
         private TextView tvEstadoPlaza;
 
         public PlazaViewHolder(@NonNull View itemView) {
             super(itemView);
-            layoutPlaza = itemView.findViewById(R.id.layoutPlaza);
-            ivIconoPlaza = itemView.findViewById(R.id.ivIconoPlaza);
+            // ✅ layoutPlaza ahora es el CardView root
+            layoutPlaza = (CardView) itemView;
             tvNumeroPlaza = itemView.findViewById(R.id.tvNumeroPlaza);
             tvEstadoPlaza = itemView.findViewById(R.id.tvEstadoPlaza);
         }
@@ -63,16 +65,17 @@ public class PlazaAdapter extends RecyclerView.Adapter<PlazaAdapter.PlazaViewHol
         public void bind(Plaza plaza) {
             tvNumeroPlaza.setText(plaza.getNumero());
 
+            // ✅ IMPORTANTE: Usar los colores de Los Muchachos Security
             if (plaza.isDisponible()) {
-                tvEstadoPlaza.setText("Disponible");
-                tvEstadoPlaza.setTextColor(Color.parseColor("#4CAF50"));
-                layoutPlaza.setBackgroundColor(Color.parseColor("#E8F5E9"));
-                ivIconoPlaza.setColorFilter(Color.parseColor("#4CAF50"));
+                tvEstadoPlaza.setText("Libre");
+                tvEstadoPlaza.setTextColor(Color.WHITE);
+                // Verde éxito
+                layoutPlaza.setCardBackgroundColor(Color.parseColor("#28A745"));
             } else {
                 tvEstadoPlaza.setText("Ocupado");
-                tvEstadoPlaza.setTextColor(Color.parseColor("#F44336"));
-                layoutPlaza.setBackgroundColor(Color.parseColor("#FFEBEE"));
-                ivIconoPlaza.setColorFilter(Color.parseColor("#F44336"));
+                tvEstadoPlaza.setTextColor(Color.WHITE);
+                // Rojo oscuro error
+                layoutPlaza.setCardBackgroundColor(Color.parseColor("#952929"));
             }
         }
     }

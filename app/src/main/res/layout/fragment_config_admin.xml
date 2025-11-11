@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- res/layout/fragment_config_admin.xml -->
+<!-- res/layout/fragment_config_admin.xml - LOS MUCHACHOS SECURITY -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@color/background_secondary">
+    android:background="#0B0E2A">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:text="Configuración"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="@color/text_primary"
+            android:textColor="#FFFFFF"
             android:fontFamily="sans-serif-medium"
             android:layout_marginBottom="8dp" />
 
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:text="Gestión avanzada del sistema"
             android:textSize="14sp"
-            android:textColor="@color/text_secondary"
+            android:textColor="#C5E5FD"
             android:layout_marginBottom="24dp"/>
 
         <!-- Card de Perfil Admin -->
@@ -39,7 +39,7 @@
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="12dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/white">
+            app:cardBackgroundColor="#383E70">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -53,7 +53,7 @@
                     android:text="👤 Perfil de Administrador"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="@color/text_primary"
+                    android:textColor="#FFFFFF"
                     android:fontFamily="sans-serif-medium"
                     android:layout_marginBottom="16dp" />
 
@@ -69,7 +69,7 @@
                         android:layout_weight="1"
                         android:text="Nombre"
                         android:textSize="12sp"
-                        android:textColor="@color/text_secondary" />
+                        android:textColor="#C5E5FD" />
 
                     <TextView
                         android:id="@+id/tvNombreAdmin"
@@ -78,7 +78,7 @@
                         android:text="Administrador"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        android:textColor="@color/text_primary"
+                        android:textColor="#FFFFFF"
                         android:fontFamily="sans-serif-medium" />
                 </LinearLayout>
 
@@ -93,7 +93,7 @@
                         android:layout_weight="1"
                         android:text="Correo"
                         android:textSize="12sp"
-                        android:textColor="@color/text_secondary" />
+                        android:textColor="#C5E5FD" />
 
                     <TextView
                         android:id="@+id/tvEmailAdmin"
@@ -102,7 +102,7 @@
                         android:text="admin@santo.cl"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        android:textColor="@color/text_primary"
+                        android:textColor="#FFFFFF"
                         android:fontFamily="sans-serif-medium" />
                 </LinearLayout>
             </LinearLayout>
@@ -115,7 +115,7 @@
             android:text="Gestión del Sistema"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/text_primary"
+            android:textColor="#FFFFFF"
             android:fontFamily="sans-serif-medium"
             android:layout_marginBottom="12dp"/>
 
@@ -126,7 +126,7 @@
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="12dp"
             app:cardElevation="2dp"
-            app:cardBackgroundColor="@color/white">
+            app:cardBackgroundColor="#383E70">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -159,7 +159,7 @@
                         android:layout_weight="1"
                         android:text="Gestionar Usuarios"
                         android:textSize="16sp"
-                        android:textColor="@color/text_primary"
+                        android:textColor="#FFFFFF"
                         android:fontFamily="sans-serif-medium"/>
 
                     <TextView
@@ -167,13 +167,13 @@
                         android:layout_height="wrap_content"
                         android:text="›"
                         android:textSize="24sp"
-                        android:textColor="@color/gray_medium"/>
+                        android:textColor="#7A80A8"/>
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/divider"
+                    android:background="#262B54"
                     android:layout_marginVertical="4dp"/>
 
                 <!-- Configuración Sistema -->
@@ -201,7 +201,7 @@
                         android:layout_weight="1"
                         android:text="Configuración del Sistema"
                         android:textSize="16sp"
-                        android:textColor="@color/text_primary"
+                        android:textColor="#FFFFFF"
                         android:fontFamily="sans-serif-medium"/>
 
                     <TextView
@@ -209,13 +209,13 @@
                         android:layout_height="wrap_content"
                         android:text="›"
                         android:textSize="24sp"
-                        android:textColor="@color/gray_medium"/>
+                        android:textColor="#7A80A8"/>
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/divider"
+                    android:background="#262B54"
                     android:layout_marginVertical="4dp"/>
 
                 <!-- Ver Reportes -->
@@ -243,7 +243,7 @@
                         android:layout_weight="1"
                         android:text="Ver Reportes"
                         android:textSize="16sp"
-                        android:textColor="@color/text_primary"
+                        android:textColor="#FFFFFF"
                         android:fontFamily="sans-serif-medium"/>
 
                     <TextView
@@ -251,7 +251,7 @@
                         android:layout_height="wrap_content"
                         android:text="›"
                         android:textSize="24sp"
-                        android:textColor="@color/gray_medium"/>
+                        android:textColor="#7A80A8"/>
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -262,10 +262,10 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="🚪 Cerrar Sesión"
-            android:textColor="@color/white"
+            android:textColor="#FFFFFF"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:backgroundTint="@color/error"
+            android:backgroundTint="#952929"
             android:fontFamily="sans-serif-medium"
             android:layout_marginTop="8dp"/>
 
@@ -275,7 +275,7 @@
             android:layout_height="wrap_content"
             android:text="Los Muchachos Security\nSanto Tomás © 2024"
             android:textSize="12sp"
-            android:textColor="@color/text_secondary"
+            android:textColor="#C5E5FD"
             android:gravity="center"
             android:layout_marginTop="24dp"
             android:alpha="0.7"/>

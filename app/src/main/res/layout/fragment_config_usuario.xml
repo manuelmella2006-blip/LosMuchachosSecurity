@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- res/layout/fragment_config_usuario.xml -->
+<!-- res/layout/fragment_config_usuario.xml - LOS MUCHACHOS SECURITY -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_secondary">
+    android:background="#0B0E2A">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Configuración"
-            android:textColor="@color/text_primary"
+            android:textColor="#FFFFFF"
             android:textSize="24sp"
             android:textStyle="bold"
             android:fontFamily="sans-serif-medium"
@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Personaliza tu experiencia"
-            android:textColor="@color/text_secondary"
+            android:textColor="#C5E5FD"
             android:textSize="14sp"
             android:layout_marginBottom="24dp"/>
 
@@ -37,6 +37,7 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="12dp"
             app:cardElevation="4dp"
+            app:cardBackgroundColor="#383E70"
             android:layout_marginBottom="16dp">
 
             <LinearLayout
@@ -51,7 +52,7 @@
                     android:text="👤 Mi Perfil"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="@color/text_primary"
+                    android:textColor="#FFFFFF"
                     android:layout_marginBottom="16dp"/>
 
                 <!-- Nombre -->
@@ -67,7 +68,7 @@
                         android:layout_weight="1"
                         android:text="Nombre"
                         android:textSize="14sp"
-                        android:textColor="@color/text_secondary"/>
+                        android:textColor="#C5E5FD"/>
 
                     <TextView
                         android:id="@+id/tvNombre"
@@ -76,7 +77,7 @@
                         android:text="Usuario"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        android:textColor="@color/text_primary"/>
+                        android:textColor="#FFFFFF"/>
                 </LinearLayout>
 
                 <!-- Email -->
@@ -92,7 +93,7 @@
                         android:layout_weight="1"
                         android:text="Correo"
                         android:textSize="14sp"
-                        android:textColor="@color/text_secondary"/>
+                        android:textColor="#C5E5FD"/>
 
                     <TextView
                         android:id="@+id/tvEmail"
@@ -101,7 +102,7 @@
                         android:text="usuario@santo.cl"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        android:textColor="@color/text_primary"/>
+                        android:textColor="#FFFFFF"/>
                 </LinearLayout>
 
                 <!-- Rol -->
@@ -117,7 +118,7 @@
                         android:layout_weight="1"
                         android:text="Tipo de Usuario"
                         android:textSize="14sp"
-                        android:textColor="@color/text_secondary"/>
+                        android:textColor="#C5E5FD"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -125,7 +126,7 @@
                         android:text="Usuario"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        android:textColor="@color/ust_green_primary"/>
+                        android:textColor="#17A2B8"/>
                 </LinearLayout>
 
                 <Button
@@ -133,8 +134,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="✏️ Editar Perfil"
-                    android:textColor="@color/white"
-                    android:backgroundTint="@color/ust_green_primary"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/bg_button_rojo"
                     android:textStyle="bold"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -146,7 +147,7 @@
             android:text="Mis Reservas"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/text_primary"
+            android:textColor="#FFFFFF"
             android:layout_marginBottom="12dp"/>
 
         <androidx.cardview.widget.CardView
@@ -156,6 +157,7 @@
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="12dp"
             app:cardElevation="2dp"
+            app:cardBackgroundColor="#383E70"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground">
@@ -180,14 +182,14 @@
                     android:layout_weight="1"
                     android:text="Ver mis reservas"
                     android:textSize="16sp"
-                    android:textColor="@color/text_primary"/>
+                    android:textColor="#FFFFFF"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="›"
                     android:textSize="24sp"
-                    android:textColor="@color/gray_medium"/>
+                    android:textColor="#7A80A8"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -198,7 +200,7 @@
             android:text="Opciones"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/text_primary"
+            android:textColor="#FFFFFF"
             android:layout_marginBottom="12dp"/>
 
         <!-- Notificaciones -->
@@ -207,7 +209,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             app:cardCornerRadius="12dp"
-            app:cardElevation="2dp">
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#383E70">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -229,15 +232,15 @@
                     android:layout_weight="1"
                     android:text="Notificaciones"
                     android:textSize="16sp"
-                    android:textColor="@color/text_primary"/>
+                    android:textColor="#FFFFFF"/>
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/switchNotificaciones"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    app:thumbTint="@color/white"
-                    app:trackTint="@color/ust_green_primary"/>
+                    app:thumbTint="#FFFFFF"
+                    app:trackTint="#85335E"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -249,6 +252,7 @@
             android:layout_marginBottom="12dp"
             app:cardCornerRadius="12dp"
             app:cardElevation="2dp"
+            app:cardBackgroundColor="#383E70"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground">
@@ -273,14 +277,14 @@
                     android:layout_weight="1"
                     android:text="Cambiar contraseña"
                     android:textSize="16sp"
-                    android:textColor="@color/text_primary"/>
+                    android:textColor="#FFFFFF"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="›"
                     android:textSize="24sp"
-                    android:textColor="@color/gray_medium"/>
+                    android:textColor="#7A80A8"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -292,6 +296,7 @@
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="12dp"
             app:cardElevation="2dp"
+            app:cardBackgroundColor="#383E70"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground">
@@ -316,14 +321,14 @@
                     android:layout_weight="1"
                     android:text="Ayuda y soporte"
                     android:textSize="16sp"
-                    android:textColor="@color/text_primary"/>
+                    android:textColor="#FFFFFF"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="›"
                     android:textSize="24sp"
-                    android:textColor="@color/gray_medium"/>
+                    android:textColor="#7A80A8"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -333,10 +338,10 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="🚪 Cerrar Sesión"
-            android:textColor="@color/white"
+            android:textColor="#FFFFFF"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:backgroundTint="@color/error"
+            android:backgroundTint="#952929"
             android:layout_marginTop="8dp"/>
 
         <!-- Footer -->
@@ -345,7 +350,7 @@
             android:layout_height="wrap_content"
             android:text="Los Muchachos Security\nSanto Tomás © 2024"
             android:textSize="12sp"
-            android:textColor="@color/text_secondary"
+            android:textColor="#C5E5FD"
             android:gravity="center"
             android:layout_marginTop="24dp"
             android:alpha="0.7"/>

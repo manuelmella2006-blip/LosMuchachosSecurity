@@ -1,42 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base application theme (Light Mode) -->
-    <style name="Base.Theme.LosMuchachosSecurity" parent="Theme.Material3.Light.NoActionBar">
-        <!-- Primary colors (Verde Santo Tomás) -->
-        <item name="colorPrimary">@color/ust_green_primary</item>
-        <item name="colorPrimaryVariant">@color/ust_green_dark</item>
-        <item name="colorOnPrimary">@color/white</item>
+    <!-- Base application theme (Dark Mode por defecto) -->
+    <style name="Base.Theme.LosMuchachosSecurity" parent="Theme.Material3.Dark.NoActionBar">
 
-        <!-- Secondary colors -->
-        <item name="colorSecondary">@color/ust_green_secondary</item>
-        <item name="colorSecondaryVariant">@color/ust_green_primary</item>
-        <item name="colorOnSecondary">@color/white</item>
+        <!-- Primary colors (Rojo Principal) -->
+        <item name="colorPrimary">#85335E</item>
+        <item name="colorPrimaryVariant">#6B2949</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
 
-        <!-- Background colors -->
-        <item name="android:colorBackground">@color/background_primary</item>
-        <item name="colorSurface">@color/white</item>
-        <item name="colorOnSurface">@color/text_primary</item>
+        <!-- Secondary colors (Azul Secundario) -->
+        <item name="colorSecondary">#262B54</item>
+        <item name="colorSecondaryVariant">#383E70</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
 
-        <!-- Status bar (verde institucional) -->
+        <!-- Background / Surface -->
+        <!-- Mantén SOLO el atributo framework -->
+        <item name="android:colorBackground">#0B0E2A</item>
+
+        <item name="colorSurface">#262B54</item>
+        <item name="colorOnSurface">#FFFFFF</item>
+
+        <!-- Status bar -->
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@color/ust_green_primary</item>
-        <!-- iconos blancos -->
+        <item name="android:statusBarColor">#0B0E2A</item>
         <item name="android:windowLightStatusBar">false</item>
 
         <!-- Navigation bar -->
-        <item name="android:navigationBarColor">@color/white</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="android:navigationBarColor">#262B54</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
 
         <!-- Text appearance -->
-        <item name="android:textColorPrimary">@color/text_primary</item>
-        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:textColorSecondary">#C5E5FD</item>
     </style>
 
     <!-- App theme -->
     <style name="Theme.LosMuchachosSecurity" parent="Base.Theme.LosMuchachosSecurity" />
 
-    <!-- Full Screen theme (para Splash o Login con fondo completo) -->
+    <!-- Full Screen theme -->
     <style name="Theme.LosMuchachosSecurity.FullScreen" parent="Theme.LosMuchachosSecurity">
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>

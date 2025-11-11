@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- res/layout/activity_maqueta3d.xml -->
+<!-- res/layout/activity_maqueta3d.xml - LOS MUCHACHOS SECURITY -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_secondary">
+    android:background="#0B0E2A">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:text="Maqueta 3D"
             android:textSize="28sp"
             android:textStyle="bold"
-            android:textColor="@color/text_primary"
+            android:textColor="#FFFFFF"
             android:fontFamily="sans-serif-medium"
             android:layout_marginBottom="8dp"/>
 
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:text="Visualización del Sistema de Estacionamiento"
             android:textSize="14sp"
-            android:textColor="@color/text_secondary"
+            android:textColor="#C5E5FD"
             android:layout_marginBottom="24dp"/>
 
         <!-- Card con placeholder de la maqueta -->
@@ -37,7 +37,7 @@
             android:layout_height="400dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="#383E70"
             android:layout_marginBottom="24dp">
 
             <LinearLayout
@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Vista 3D del Estacionamiento"
-                    android:textColor="@color/text_primary"
+                    android:textColor="#FFFFFF"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     android:textAlignment="center"
@@ -72,7 +72,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Aquí se visualizará la representación 3D del sistema de estacionamiento inteligente"
-                    android:textColor="@color/text_secondary"
+                    android:textColor="#C5E5FD"
                     android:textSize="14sp"
                     android:textAlignment="center"
                     android:layout_marginBottom="24dp"
@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center"
-                    android:background="@color/ust_green_light"
+                    android:background="#262B54"
                     android:padding="12dp"
                     android:layout_marginTop="8dp">
 
@@ -99,7 +99,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Sistema Operativo"
-                        android:textColor="@color/ust_green_primary"
+                        android:textColor="#28A745"
                         android:textSize="14sp"
                         android:textStyle="bold"/>
                 </LinearLayout>
@@ -115,7 +115,7 @@
             android:text="Características"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/text_primary"
+            android:textColor="#FFFFFF"
             android:layout_marginBottom="12dp"/>
 
         <!-- Cards de características -->
@@ -124,6 +124,7 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="12dp"
             app:cardElevation="2dp"
+            app:cardBackgroundColor="#383E70"
             android:layout_marginBottom="12dp">
 
             <LinearLayout
@@ -152,14 +153,14 @@
                         android:text="Monitoreo en Tiempo Real"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:textColor="@color/text_primary"/>
+                        android:textColor="#FFFFFF"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Visualización instantánea del estado de las plazas"
                         android:textSize="12sp"
-                        android:textColor="@color/text_secondary"/>
+                        android:textColor="#C5E5FD"/>
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -169,6 +170,7 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="12dp"
             app:cardElevation="2dp"
+            app:cardBackgroundColor="#383E70"
             android:layout_marginBottom="12dp">
 
             <LinearLayout
@@ -197,14 +199,14 @@
                         android:text="Control Interactivo"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:textColor="@color/text_primary"/>
+                        android:textColor="#FFFFFF"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Manipulación directa de barreras y sensores"
                         android:textSize="12sp"
-                        android:textColor="@color/text_secondary"/>
+                        android:textColor="#C5E5FD"/>
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -214,6 +216,7 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="12dp"
             app:cardElevation="2dp"
+            app:cardBackgroundColor="#383E70"
             android:layout_marginBottom="24dp">
 
             <LinearLayout
@@ -242,14 +245,14 @@
                         android:text="Sistema Seguro"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:textColor="@color/text_primary"/>
+                        android:textColor="#FFFFFF"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Conexión cifrada con Firebase y Arduino"
                         android:textSize="12sp"
-                        android:textColor="@color/text_secondary"/>
+                        android:textColor="#C5E5FD"/>
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -260,8 +263,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Volver al Menú Principal"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/ust_green_primary"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/bg_button_rojo"
             android:textStyle="bold"
             android:fontFamily="sans-serif-medium"
             android:padding="14dp"/>
