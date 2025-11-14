@@ -1,48 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
-    <!-- Base application theme (Dark Mode por defecto) -->
-    <style name="Base.Theme.LosMuchachosSecurity" parent="Theme.Material3.Dark.NoActionBar">
-
-        <!-- Primary colors (Rojo Principal) -->
+    <style name="Theme.LosMuchachosSecurity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">#85335E</item>
         <item name="colorPrimaryVariant">#6B2949</item>
         <item name="colorOnPrimary">#FFFFFF</item>
 
-        <!-- Secondary colors (Azul Secundario) -->
         <item name="colorSecondary">#262B54</item>
         <item name="colorSecondaryVariant">#383E70</item>
         <item name="colorOnSecondary">#FFFFFF</item>
 
-        <!-- Background / Surface -->
-        <!-- Mantén SOLO el atributo framework -->
         <item name="android:colorBackground">#0B0E2A</item>
-
         <item name="colorSurface">#262B54</item>
         <item name="colorOnSurface">#FFFFFF</item>
 
-        <!-- Status bar -->
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <!-- STATUS BAR -->
         <item name="android:statusBarColor">#0B0E2A</item>
-        <item name="android:windowLightStatusBar">false</item>
 
-        <!-- Navigation bar -->
+        <!-- NAV BAR -->
         <item name="android:navigationBarColor">#262B54</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
-
-        <!-- Text appearance -->
-        <item name="android:textColorPrimary">#FFFFFF</item>
-        <item name="android:textColorSecondary">#C5E5FD</item>
-    </style>
-
-    <!-- App theme -->
-    <style name="Theme.LosMuchachosSecurity" parent="Base.Theme.LosMuchachosSecurity" />
-
-    <!-- Full Screen theme -->
-    <style name="Theme.LosMuchachosSecurity.FullScreen" parent="Theme.LosMuchachosSecurity">
-        <item name="android:windowFullscreen">false</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
 </resources>

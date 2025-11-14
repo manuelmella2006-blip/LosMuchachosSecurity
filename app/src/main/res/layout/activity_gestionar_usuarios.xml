@@ -52,18 +52,29 @@
                 android:textSize="20sp"
                 android:layout_marginEnd="8dp"/>
 
-            <EditText
-                android:id="@+id/etBuscarUsuario"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputBuscar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Buscar usuario..."
-                android:textColorHint="#7A80A8"
-                android:textColor="#FFFFFF"
                 android:background="@android:color/transparent"
-                android:inputType="text"
-                android:maxLines="1"/>
+                android:hint="Buscar usuario..."
+                app:boxBackgroundMode="none">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etBuscarUsuario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="#7A80A8"
+                    android:textColor="#FFFFFF"
+                    android:maxLines="1"
+                    android:inputType="text"
+                    android:background="@android:color/transparent"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
         </LinearLayout>
+
 
         <!-- Filtros -->
         <LinearLayout

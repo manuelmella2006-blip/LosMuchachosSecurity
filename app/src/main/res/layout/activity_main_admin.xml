@@ -37,8 +37,6 @@
         android:background="#262B54"
         android:elevation="8dp"
         app:menu="@menu/bottom_nav_menu_admin"
-        app:itemIconTint="@color/bottom_nav_color"
-        app:itemTextColor="@color/bottom_nav_color"
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
