@@ -2,15 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Permisos necesarios -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28" />
-    <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
 
     <application
         android:allowBackup="true"
@@ -23,17 +16,6 @@
         android:theme="@style/Theme.LosMuchachosSecurity"
         tools:targetApi="31">
 
-        <!-- FileProvider para compartir PDFs -->
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
-
         <!-- LoginActivity - Pantalla inicial -->
         <activity
             android:name=".ui.LoginActivity"
@@ -44,12 +26,7 @@
             </intent-filter>
         </activity>
 
-        <!-- MainActivityUsuario - menú principal para usuarios -->
-        <activity
-            android:name=".ui.usuario.MainActivityUsuario"
-            android:exported="false" />
-
-        <!-- MainActivityAdmin - menú principal para administradores -->
+        <!-- MainActivityAdmin - ÚNICA actividad principal -->
         <activity
             android:name=".ui.admin.MainActivityAdmin"
             android:exported="false" />
@@ -65,7 +42,7 @@
                 android:value=".ui.admin.MainActivityAdmin" />
         </activity>
 
-        <!-- Maqueta3DActivity (opcional) -->
+        <!-- Maqueta3DActivity -->
         <activity
             android:name=".ui.Maqueta3DActivity"
             android:exported="false" />

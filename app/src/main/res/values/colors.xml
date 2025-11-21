@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- Colores Base -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
@@ -7,26 +8,26 @@
     <!-- ========== PALETA OFICIAL LOS MUCHACHOS SECURITY ========== -->
 
     <!-- Colores Primarios -->
-    <color name="ust_green_primary">#85335E</color> <!-- Rojo Principal (reemplaza verde) -->
+    <color name="ust_green_primary">#85335E</color> <!-- Rojo Principal -->
     <color name="ust_green_secondary">#262B54</color> <!-- Azul Secundario -->
     <color name="ust_green_light">#C5E5FD</color> <!-- Azul Claro -->
     <color name="ust_green_dark">#6B2949</color> <!-- Rojo Oscuro -->
 
     <!-- Colores de Fondo -->
-    <color name="background_primary">#0B0E2A</color> <!-- Azul Profundo -->
-    <color name="background_secondary">#262B54</color> <!-- Azul Secundario -->
+    <color name="background_primary">#0B0E2A</color>
+    <color name="background_secondary">#262B54</color>
 
     <!-- Colores de Apoyo (Grises/Azules) -->
-    <color name="gray_dark">#363A5D</color> <!-- Gris Oscuro Azulado -->
+    <color name="gray_dark">#363A5D</color>
     <color name="gray_medium">#7F8C8D</color>
     <color name="gray_light">#F8F9FA</color>
     <color name="gray_border">#E9ECEF</color>
 
     <!-- Colores de Estado -->
-    <color name="success">#28A745</color> <!-- Verde Éxito/Libre -->
-    <color name="warning">#FFC107</color> <!-- Amarillo Advertencia -->
-    <color name="error">#952929</color> <!-- Rojo Oscuro Error/Ocupado -->
-    <color name="info">#17A2B8</color> <!-- Cian Información -->
+    <color name="success">#28A745</color>
+    <color name="warning">#FFC107</color>
+    <color name="error">#952929</color>
+    <color name="info">#17A2B8</color>
 
     <!-- Colores de Actividades -->
     <color name="activity_capacitacion">#85335E</color>
@@ -38,8 +39,8 @@
     <color name="activity_diagnostico">#17A2B8</color>
 
     <!-- Colores Adicionales para UI -->
-    <color name="text_primary">#FFFFFF</color> <!-- Texto blanco para fondos oscuros -->
-    <color name="text_secondary">#C5E5FD</color> <!-- Azul claro para subtextos -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#C5E5FD</color>
     <color name="text_tertiary">#9E9E9E</color>
     <color name="divider">#383E70</color>
 
@@ -48,13 +49,34 @@
     <color name="shadow_light">#1A000000</color>
 
     <!-- Colores de roles -->
-    <color name="admin_color">#85335E</color> <!-- Rojo Admin -->
-    <color name="usuario_color">#17A2B8</color> <!-- Cian Usuario -->
+    <color name="admin_color">#85335E</color>
+    <color name="usuario_color">#17A2B8</color>
 
     <!-- Colores de cards y superficies -->
-    <color name="surface_card">#383E70</color> <!-- Azul Grisáceo para cards -->
+    <color name="surface_card">#383E70</color>
 
-    <!-- Colores para Bottom Navigation -->
-    <color name="bottom_nav_selected">#C5E5FD</color> <!-- Azul Claro cuando está seleccionado -->
-    <color name="bottom_nav_unselected">#B3FFFFFF</color> <!-- Blanco semi-transparente -->
+    <!-- Colores Bottom Navigation -->
+    <color name="bottom_nav_selected">#C5E5FD</color>
+    <color name="bottom_nav_unselected">#B3FFFFFF</color>
+
+    <!-- ========== COLORES QUE USABA TU LAYOUT ========== -->
+
+    <!-- Blanco universal (alias para compatibilidad) -->
+    <color name="blanco">#FFFFFFFF</color>
+
+    <!-- Gris medio (usado en subtítulos) -->
+    <color name="gris_medio">#7F8C8D</color>
+
+    <!-- Verde secundario (botón abrir) -->
+    <color name="verde_secundario">#2E7D32</color>
+
+    <!-- Rojo error (botón cerrar) -->
+    <color name="rojo_error">#C62828</color>
+
+    <!-- Fondo principal de la pantalla -->
+    <color name="fondo_principal">#0B0E2A</color>
+
+    <!-- Fondo de las tarjetas / CardViews -->
+    <color name="fondo_tarjeta">#262B54</color>
+
 </resources>

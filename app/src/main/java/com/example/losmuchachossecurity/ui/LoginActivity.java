@@ -21,7 +21,6 @@ import androidx.core.content.ContextCompat;
 
 import com.example.losmuchachossecurity.R;
 import com.example.losmuchachossecurity.ui.admin.MainActivityAdmin;
-import com.example.losmuchachossecurity.ui.usuario.MainActivityUsuario;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -36,13 +35,12 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String TAG = "LoginActivity";
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
     private EditText etEmail, etPassword;
     private Button btnLogin;
-    private TextView btnRegister; // ✅ CORREGIDO (antes Button)
+    private TextView btnRegister;
     private TextView tvForgot;
     private CheckBox cbRecordar;
     private ProgressBar progress;
@@ -83,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
-        btnRegister = findViewById(R.id.btnRegister); // ✅ Sigue igual
+        btnRegister = findViewById(R.id.btnRegister);
         tvForgot = findViewById(R.id.tvForgot);
         cbRecordar = findViewById(R.id.cbRecordar);
         progress = findViewById(R.id.progress);
@@ -92,9 +90,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void setupListeners() {
         btnLogin.setOnClickListener(v -> doLogin());
-
-        if (btnRegister != null) btnRegister.setOnClickListener(v -> doRegister());
-
+        btnRegister.setOnClickListener(v -> doRegister());
         tvForgot.setOnClickListener(v -> doResetPassword());
     }
 
@@ -111,6 +107,9 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    // =============================
+    // LOGIN
+    // =============================
     private void doLogin() {
         String email = safe(etEmail.getText());
         String pass = safe(etPassword.getText());
@@ -131,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                             verificarRolYRedirigir(user.getUid());
                         } else {
                             setLoading(false);
-                            showErrorMessage("Error al obtener datos del usuario");
+                            showErrorMessage("Error al obtener usuario");
                         }
 
                     } else {
@@ -142,6 +141,9 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+    // =============================
+    // REGISTRO COMO ADMIN
+    // =============================
     private void doRegister() {
         String email = safe(etEmail.getText());
         String pass = safe(etPassword.getText());
@@ -165,7 +167,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
-                            crearUsuarioEnFirestore(user.getUid(), email);
+                            crearUsuarioAdminEnFirestore(user.getUid(), email);
                         } else {
                             setLoading(false);
                             showErrorMessage("Error al crear usuario");
@@ -179,52 +181,33 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+    // =============================
+    // SIEMPRE REDIRIGIR A ADMIN
+    // =============================
     private void verificarRolYRedirigir(String userId) {
         db.collection("usuarios").document(userId)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     setLoading(false);
 
-                    if (documentSnapshot.exists()) {
-                        String rol = documentSnapshot.getString("rol");
-
-                        if (rol == null || rol.isEmpty()) {
-                            rol = "usuario";
-                            db.collection("usuarios").document(userId).update("rol", "usuario");
-                        }
-
-                        Intent intent;
-                        if ("admin".equalsIgnoreCase(rol)) {
-                            intent = new Intent(LoginActivity.this, MainActivityAdmin.class);
-                            showSuccessMessage("¡Bienvenido Admin!");
-                        } else {
-                            intent = new Intent(LoginActivity.this, MainActivityUsuario.class);
-                            showSuccessMessage("¡Bienvenido!");
-                        }
-
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        finish();
-
-                    } else {
-                        FirebaseUser currentUser = mAuth.getCurrentUser();
-                        if (currentUser != null) {
-                            crearUsuarioEnFirestore(userId, currentUser.getEmail());
-                        }
-                    }
-
+                    // Siempre admin
+                    Intent intent = new Intent(LoginActivity.this, MainActivityAdmin.class);
+                    showSuccessMessage("¡Bienvenido Administrador!");
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
                 })
                 .addOnFailureListener(e -> {
                     setLoading(false);
-                    showErrorMessage("Error al verificar usuario: " + e.getMessage());
+                    showErrorMessage("Error verificando usuario: " + e.getMessage());
                 });
     }
 
-    private void crearUsuarioEnFirestore(String userId, String email) {
+    private void crearUsuarioAdminEnFirestore(String userId, String email) {
         Map<String, Object> usuario = new HashMap<>();
         usuario.put("email", email);
-        usuario.put("nombre", email.split("@")[0]);
-        usuario.put("rol", "usuario");
+        usuario.put("nombre", email != null ? email.split("@")[0] : "Admin");
+        usuario.put("rol", "admin");
         usuario.put("fechaRegistro", System.currentTimeMillis());
         usuario.put("activo", true);
 
@@ -232,25 +215,27 @@ public class LoginActivity extends AppCompatActivity {
                 .set(usuario)
                 .addOnSuccessListener(aVoid -> {
                     setLoading(false);
-                    showSuccessMessage("Cuenta creada exitosamente");
+                    showSuccessMessage("Cuenta de administrador creada");
 
-                    Intent intent = new Intent(LoginActivity.this, MainActivityUsuario.class);
+                    Intent intent = new Intent(LoginActivity.this, MainActivityAdmin.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
                 })
                 .addOnFailureListener(e -> {
                     setLoading(false);
-                    showErrorMessage("Error al crear usuario: " + e.getMessage());
+                    showErrorMessage("Error creando admin: " + e.getMessage());
                 });
     }
 
+    // =============================
+    // RESET CONTRASEÑA
+    // =============================
     private void doResetPassword() {
         String email = safe(etEmail.getText());
 
         if (TextUtils.isEmpty(email)) {
-            etEmail.setError("Ingresa tu correo para enviar el enlace");
-            etEmail.requestFocus();
+            etEmail.setError("Ingresa tu correo");
             shakeCard();
             return;
         }
@@ -266,15 +251,17 @@ public class LoginActivity extends AppCompatActivity {
         mAuth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(this, task -> {
                     setLoading(false);
-
                     if (task.isSuccessful()) {
-                        showSuccessMessage("Revisa tu correo para restablecer tu contraseña");
+                        showSuccessMessage("Correo enviado");
                     } else {
-                        showErrorMessage("No pudimos enviar el correo. Verifica tu email");
+                        showErrorMessage("No se pudo enviar");
                     }
                 });
     }
 
+    // =============================
+    // UTILIDADES
+    // =============================
     private boolean validate(String email, String pass) {
         boolean ok = true;
 
@@ -282,7 +269,7 @@ public class LoginActivity extends AppCompatActivity {
             etEmail.setError("El correo es requerido");
             ok = false;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            etEmail.setError("Formato de correo inválido");
+            etEmail.setError("Correo inválido");
             ok = false;
         }
 
@@ -297,7 +284,7 @@ public class LoginActivity extends AppCompatActivity {
     private void setLoading(boolean isLoading) {
         progress.setVisibility(isLoading ? View.VISIBLE : View.GONE);
         btnLogin.setEnabled(!isLoading);
-        if (btnRegister != null) btnRegister.setEnabled(!isLoading);
+        btnRegister.setEnabled(!isLoading);
         tvForgot.setEnabled(!isLoading);
         etEmail.setEnabled(!isLoading);
         etPassword.setEnabled(!isLoading);
@@ -308,52 +295,44 @@ public class LoginActivity extends AppCompatActivity {
             cardLogin.animate()
                     .translationX(-10f)
                     .setDuration(50)
-                    .withEndAction(() -> cardLogin.animate()
-                            .translationX(10f)
-                            .setDuration(50)
-                            .withEndAction(() -> cardLogin.animate()
-                                    .translationX(0f)
+                    .withEndAction(() ->
+                            cardLogin.animate()
+                                    .translationX(10f)
                                     .setDuration(50)
-                                    .start())
-                            .start())
-                    .start();
+                                    .withEndAction(() ->
+                                            cardLogin.animate()
+                                                    .translationX(0f)
+                                                    .setDuration(50)
+                                                    .start()
+                                    ).start()
+                    ).start();
         }
     }
 
     private String parseAuthError(Exception e) {
-        if (e == null) return "Error desconocido";
+        if (e == null) return "Error";
 
-        if (e instanceof FirebaseAuthInvalidUserException) {
-            return "No existe una cuenta con este correo";
-        } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
-            return "Credenciales incorrectas";
-        } else if (e instanceof FirebaseAuthUserCollisionException) {
-            return "Ya existe una cuenta con este correo";
-        } else if (e instanceof FirebaseAuthWeakPasswordException) {
-            return "La contraseña es muy débil";
-        } else if (e.getMessage() != null) {
-            return e.getMessage();
-        }
+        if (e instanceof FirebaseAuthInvalidUserException) return "Usuario no existe";
+        if (e instanceof FirebaseAuthInvalidCredentialsException) return "Credenciales incorrectas";
+        if (e instanceof FirebaseAuthUserCollisionException) return "Correo ya registrado";
+        if (e instanceof FirebaseAuthWeakPasswordException) return "Contraseña débil";
+        if (e.getMessage() != null) return e.getMessage();
 
-        return "Error de autenticación";
+        return "Error desconocido";
     }
 
     private void showSuccessMessage(String message) {
-        if (cardLogin != null) {
-            Snackbar.make(cardLogin, message, Snackbar.LENGTH_SHORT)
-                    .setBackgroundTint(getColor(R.color.success))
-                    .setTextColor(getColor(R.color.white))
-                    .show();
-        }
+        Snackbar.make(cardLogin, message, Snackbar.LENGTH_SHORT)
+                .setBackgroundTint(getColor(R.color.success))
+                .setTextColor(getColor(R.color.white))
+                .show();
     }
 
     private void showErrorMessage(String message) {
-        if (cardLogin != null) {
-            Snackbar.make(cardLogin, message, Snackbar.LENGTH_LONG)
-                    .setBackgroundTint(getColor(R.color.error))
-                    .setTextColor(getColor(R.color.white))
-                    .show();
-        }
+        Snackbar.make(cardLogin, message, Snackbar.LENGTH_LONG)
+                .setBackgroundTint(getColor(R.color.error))
+                .setTextColor(getColor(R.color.white))
+                .show();
     }
 
     private String safe(CharSequence cs) {

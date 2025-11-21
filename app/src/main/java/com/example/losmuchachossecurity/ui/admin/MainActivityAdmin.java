@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowInsetsController;
 import android.view.WindowManager;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +33,6 @@ public class MainActivityAdmin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_admin);
 
-        // 🔐 Configurar Status Bar verde
         setupStatusBar();
 
         mAuth = FirebaseAuth.getInstance();
@@ -41,12 +41,28 @@ public class MainActivityAdmin extends AppCompatActivity {
         setupToolbar();
         setupBottomNavigation();
 
-        // Cargar fragment inicial (Monitoreo)
+        // Fragment inicial
         if (savedInstanceState == null) {
             loadFragment(new MonitoreoFragment());
         }
+
+        // ✅ Manejo moderno del botón atrás con OnBackPressedDispatcher
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                new AlertDialog.Builder(MainActivityAdmin.this)
+                        .setTitle("Salir")
+                        .setMessage("¿Deseas salir del panel de administración?")
+                        .setPositiveButton("Sí", (dialog, which) -> finish())
+                        .setNegativeButton("No", null)
+                        .show();
+            }
+        });
     }
 
+    // -----------------------------
+    // UI SETUP
+    // -----------------------------
     private void setupStatusBar() {
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -71,10 +87,13 @@ public class MainActivityAdmin extends AppCompatActivity {
     private void setupToolbar() {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("Admin - Los Muchachos Security");
+            getSupportActionBar().setTitle("Admin - Monitoreo");
         }
     }
 
+    // -----------------------------
+    // BOTTOM NAVIGATION
+    // -----------------------------
     private void setupBottomNavigation() {
         bottomNavigation.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
@@ -83,15 +102,18 @@ public class MainActivityAdmin extends AppCompatActivity {
             if (itemId == R.id.nav_monitoreo) {
                 selectedFragment = new MonitoreoFragment();
                 updateToolbarTitle("Monitoreo");
+
+            } else if (itemId == R.id.nav_reservar) {
+                selectedFragment = new ReservarFragment();
+                updateToolbarTitle("Reservar Plaza");
+
             } else if (itemId == R.id.nav_barreras) {
                 selectedFragment = new BarrerasFragment();
-                updateToolbarTitle("Control de Barreras");
-            } else if (itemId == R.id.nav_registros) {
-                selectedFragment = new RegistrosFragment();
-                updateToolbarTitle("Registros");
+                updateToolbarTitle("Control Barreras");
+
             } else if (itemId == R.id.nav_config_admin) {
                 selectedFragment = new ConfigAdminFragment();
-                updateToolbarTitle("Configuración Admin");
+                updateToolbarTitle("Configuración");
             }
 
             if (selectedFragment != null) {
@@ -115,6 +137,9 @@ public class MainActivityAdmin extends AppCompatActivity {
         }
     }
 
+    // -----------------------------
+    // MENU SUPERIOR
+    // -----------------------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main_admin, menu);
@@ -128,9 +153,11 @@ public class MainActivityAdmin extends AppCompatActivity {
         if (itemId == R.id.action_notificaciones) {
             mostrarNotificaciones();
             return true;
+
         } else if (itemId == R.id.action_estadisticas) {
             mostrarEstadisticas();
             return true;
+
         } else if (itemId == R.id.action_logout) {
             mostrarDialogoCerrarSesion();
             return true;
@@ -139,9 +166,6 @@ public class MainActivityAdmin extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * 🔔 Muestra las notificaciones del sistema
-     */
     private void mostrarNotificaciones() {
         new AlertDialog.Builder(this)
                 .setTitle("Notificaciones")
@@ -150,9 +174,6 @@ public class MainActivityAdmin extends AppCompatActivity {
                 .show();
     }
 
-    /**
-     * 📊 Muestra estadísticas rápidas del sistema
-     */
     private void mostrarEstadisticas() {
         new AlertDialog.Builder(this)
                 .setTitle("Estadísticas del Sistema")
@@ -169,9 +190,6 @@ public class MainActivityAdmin extends AppCompatActivity {
                 .show();
     }
 
-    /**
-     * 🚪 Muestra un diálogo de confirmación para cerrar sesión
-     */
     private void mostrarDialogoCerrarSesion() {
         new AlertDialog.Builder(this)
                 .setTitle("Cerrar Sesión")
@@ -181,9 +199,6 @@ public class MainActivityAdmin extends AppCompatActivity {
                 .show();
     }
 
-    /**
-     * 🔓 Cierra la sesión del administrador y vuelve al LoginActivity
-     */
     private void cerrarSesion() {
         mAuth.signOut();
         Intent intent = new Intent(this, LoginActivity.class);
@@ -191,22 +206,5 @@ public class MainActivityAdmin extends AppCompatActivity {
         intent.putExtra("FROM_LOGOUT", true);
         startActivity(intent);
         finish();
-    }
-
-    @Override
-    public void onBackPressed() {
-        // Si está en el fragment de monitoreo, mostrar diálogo de salida
-        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if (currentFragment instanceof MonitoreoFragment) {
-            new AlertDialog.Builder(this)
-                    .setTitle("Salir")
-                    .setMessage("¿Deseas salir del panel de administración?")
-                    .setPositiveButton("Sí", (dialog, which) -> finish())
-                    .setNegativeButton("No", null)
-                    .show();
-        } else {
-            // Volver al fragment de monitoreo
-            bottomNavigation.setSelectedItemId(R.id.nav_monitoreo);
-        }
     }
 }

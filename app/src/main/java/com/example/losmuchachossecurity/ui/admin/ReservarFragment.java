@@ -1,10 +1,9 @@
-package com.example.losmuchachossecurity.ui.usuario;
+package com.example.losmuchachossecurity.ui.admin;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.losmuchachossecurity.R;
 import com.example.losmuchachossecurity.data.PlazaRepository;
 import com.example.losmuchachossecurity.model.Plaza;
+import com.example.losmuchachossecurity.ui.usuario.PlazaReservaAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;

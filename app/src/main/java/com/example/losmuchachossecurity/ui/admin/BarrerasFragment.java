@@ -8,64 +8,115 @@ import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import com.example.losmuchachossecurity.R;
-import com.example.losmuchachossecurity.data.ControlEventoRepository;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class BarrerasFragment extends Fragment {
 
+    private FirebaseFirestore db;
+    private DocumentReference comandosRef;
+
+    private TextView tvEstadoEntrada, tvEstadoSalida;
     private Button btnAbrirEntrada, btnCerrarEntrada;
     private Button btnAbrirSalida, btnCerrarSalida;
-    private Switch switchModoAutomatico;
-    private TextView tvEstadoEntrada, tvEstadoSalida;
-    private ControlEventoRepository controlRepository;
+    private Switch switchBloqueo;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_barreras, container, false);
 
-        // Inicializar vistas
+        db = FirebaseFirestore.getInstance();
+        comandosRef = db.collection("comandos").document("arduinoControl");
+
+        // Referencias UI
+        tvEstadoEntrada = view.findViewById(R.id.tvEstadoEntrada);
+        tvEstadoSalida  = view.findViewById(R.id.tvEstadoSalida);
         btnAbrirEntrada = view.findViewById(R.id.btnAbrirEntrada);
         btnCerrarEntrada = view.findViewById(R.id.btnCerrarEntrada);
         btnAbrirSalida = view.findViewById(R.id.btnAbrirSalida);
         btnCerrarSalida = view.findViewById(R.id.btnCerrarSalida);
-        switchModoAutomatico = view.findViewById(R.id.switchModoAutomatico);
-        tvEstadoEntrada = view.findViewById(R.id.tvEstadoEntrada);
-        tvEstadoSalida = view.findViewById(R.id.tvEstadoSalida);
+        switchBloqueo = view.findViewById(R.id.switchBloqueo);
 
-        controlRepository = new ControlEventoRepository();
-
-        // Configurar listeners
-        configurarListeners();
+        configurarBotones();
+        cargarEstadoInicial();
 
         return view;
     }
 
-    private void configurarListeners() {
-        btnAbrirEntrada.setOnClickListener(v -> controlarBarrera("entrada", "abrir"));
-        btnCerrarEntrada.setOnClickListener(v -> controlarBarrera("entrada", "cerrar"));
-        btnAbrirSalida.setOnClickListener(v -> controlarBarrera("salida", "abrir"));
-        btnCerrarSalida.setOnClickListener(v -> controlarBarrera("salida", "cerrar"));
+    private void configurarBotones() {
+        btnAbrirEntrada.setOnClickListener(v ->
+                enviarComando("abrirEntrada", true, "Abriendo barrera de entrada"));
 
-        switchModoAutomatico.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            String modo = isChecked ? "automático" : "manual";
-            Toast.makeText(getContext(), "Modo " + modo + " activado", Toast.LENGTH_SHORT).show();
+        btnCerrarEntrada.setOnClickListener(v ->
+                enviarComando("cerrarEntrada", true, "Cerrando barrera de entrada"));
+
+        btnAbrirSalida.setOnClickListener(v ->
+                enviarComando("abrirSalida", true, "Abriendo barrera de salida"));
+
+        btnCerrarSalida.setOnClickListener(v ->
+                enviarComando("cerrarSalida", true, "Cerrando barrera de salida"));
+
+        switchBloqueo.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            enviarComando("modoBloqueado", isChecked,
+                    isChecked ? "Modo bloqueo activado" : "Modo bloqueo desactivado");
         });
     }
 
-    private void controlarBarrera(String tipo, String accion) {
-        // Aquí conectarías con Arduino/Firebase para controlar la barrera
-        String mensaje = "Barrera de " + tipo + " " + accion + "da";
-        Toast.makeText(getContext(), mensaje, Toast.LENGTH_SHORT).show();
+    private void enviarComando(String campo, Object valor, String mensajeOk) {
+        if (comandosRef == null) return;
 
-        if (tipo.equals("entrada")) {
-            tvEstadoEntrada.setText(accion.equals("abrir") ? "ABIERTA" : "CERRADA");
-        } else {
-            tvEstadoSalida.setText(accion.equals("abrir") ? "ABIERTA" : "CERRADA");
-        }
+        Map<String, Object> data = new HashMap<>();
+        data.put(campo, valor);
+        data.put("timestamp", FieldValue.serverTimestamp());
+
+        comandosRef.set(data, com.google.firebase.firestore.SetOptions.merge())
+                .addOnSuccessListener(unused -> {
+                    Toast.makeText(getContext(), mensajeOk, Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getContext(), "Error al enviar comando", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void cargarEstadoInicial() {
+        comandosRef.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            Boolean bloqueo = documentSnapshot.getBoolean("modoBloqueado");
+                            if (bloqueo != null) {
+                                switchBloqueo.setChecked(bloqueo);
+                            }
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // No es grave, se puede ignorar
+                    }
+                });
+
+        // Los textos de estado por ahora son estáticos
+        tvEstadoEntrada.setText("Estado: Controlado por Arduino");
+        tvEstadoSalida.setText("Estado: Controlado por Arduino");
     }
 }
