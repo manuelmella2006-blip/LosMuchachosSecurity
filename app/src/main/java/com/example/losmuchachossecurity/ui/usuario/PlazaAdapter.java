@@ -49,14 +49,12 @@ public class PlazaAdapter extends RecyclerView.Adapter<PlazaAdapter.PlazaViewHol
 
     static class PlazaViewHolder extends RecyclerView.ViewHolder {
 
-        // ✅ CORREGIDO: Solo los IDs que existen en item_plaza.xml nuevo
-        private CardView layoutPlaza; // El card es el root ahora
+        private CardView layoutPlaza;
         private TextView tvNumeroPlaza;
         private TextView tvEstadoPlaza;
 
         public PlazaViewHolder(@NonNull View itemView) {
             super(itemView);
-            // ✅ layoutPlaza ahora es el CardView root
             layoutPlaza = (CardView) itemView;
             tvNumeroPlaza = itemView.findViewById(R.id.tvNumeroPlaza);
             tvEstadoPlaza = itemView.findViewById(R.id.tvEstadoPlaza);
@@ -65,17 +63,15 @@ public class PlazaAdapter extends RecyclerView.Adapter<PlazaAdapter.PlazaViewHol
         public void bind(Plaza plaza) {
             tvNumeroPlaza.setText(plaza.getNumero());
 
-            // ✅ IMPORTANTE: Usar los colores de Los Muchachos Security
-            if (plaza.isDisponible()) {
+            // ✅ ACTUALIZADO: Usar el campo 'ocupado' de Firebase
+            if (!plaza.isOcupado()) { // Si NO está ocupado = LIBRE
                 tvEstadoPlaza.setText("Libre");
                 tvEstadoPlaza.setTextColor(Color.WHITE);
-                // Verde éxito
-                layoutPlaza.setCardBackgroundColor(Color.parseColor("#28A745"));
-            } else {
+                layoutPlaza.setCardBackgroundColor(Color.parseColor("#28A745")); // Verde
+            } else { // Si está ocupado
                 tvEstadoPlaza.setText("Ocupado");
                 tvEstadoPlaza.setTextColor(Color.WHITE);
-                // Rojo oscuro error
-                layoutPlaza.setCardBackgroundColor(Color.parseColor("#952929"));
+                layoutPlaza.setCardBackgroundColor(Color.parseColor("#952929")); // Rojo
             }
         }
     }
