@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fondo_principal"
@@ -25,7 +26,7 @@
             android:id="@+id/tvSubtituloBarreras"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Desde aquí puedes abrir y cerrar las barreras de entrada y salida."
+            android:text="Desde aquí puedes abrir las barreras de entrada y salida del estacionamiento."
             android:textSize="14sp"
             android:textColor="@color/gris_medio"
             android:paddingBottom="16dp" />
@@ -35,13 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:clickable="false"
-            android:focusable="false"
             android:elevation="4dp"
-            android:padding="0dp"
             android:backgroundTint="@color/fondo_tarjeta"
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
             card_view:cardCornerRadius="16dp">
 
             <LinearLayout
@@ -68,34 +64,14 @@
                     android:textColor="@color/gris_medio"
                     android:paddingBottom="12dp" />
 
-                <LinearLayout
+                <Button
+                    android:id="@+id/btnAbrirEntrada"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center">
-
-                    <Button
-                        android:id="@+id/btnAbrirEntrada"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Abrir entrada"
-                        android:textAllCaps="false"
-                        android:backgroundTint="@color/verde_secundario"
-                        android:textColor="@color/blanco"
-                        android:layout_marginEnd="8dp" />
-
-                    <Button
-                        android:id="@+id/btnCerrarEntrada"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Cerrar entrada"
-                        android:textAllCaps="false"
-                        android:backgroundTint="@color/rojo_error"
-                        android:textColor="@color/blanco"
-                        android:layout_marginStart="8dp" />
-                </LinearLayout>
+                    android:text="Abrir entrada"
+                    android:textAllCaps="false"
+                    android:backgroundTint="@color/verde_secundario"
+                    android:textColor="@color/blanco" />
 
             </LinearLayout>
 
@@ -108,7 +84,6 @@
             android:layout_marginBottom="16dp"
             android:elevation="4dp"
             android:backgroundTint="@color/fondo_tarjeta"
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
             card_view:cardCornerRadius="16dp">
 
             <LinearLayout
@@ -135,90 +110,14 @@
                     android:textColor="@color/gris_medio"
                     android:paddingBottom="12dp" />
 
-                <LinearLayout
+                <Button
+                    android:id="@+id/btnAbrirSalida"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center">
-
-                    <Button
-                        android:id="@+id/btnAbrirSalida"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Abrir salida"
-                        android:textAllCaps="false"
-                        android:backgroundTint="@color/verde_secundario"
-                        android:textColor="@color/blanco"
-                        android:layout_marginEnd="8dp" />
-
-                    <Button
-                        android:id="@+id/btnCerrarSalida"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Cerrar salida"
-                        android:textAllCaps="false"
-                        android:backgroundTint="@color/rojo_error"
-                        android:textColor="@color/blanco"
-                        android:layout_marginStart="8dp" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <!-- Card: MODO BLOQUEO -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="4dp"
-            android:backgroundTint="@color/fondo_tarjeta"
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            card_view:cardCornerRadius="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Modo bloqueo"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/blanco"
-                    android:paddingBottom="4dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Cuando está activado, no se permiten nuevas entradas al estacionamiento."
-                    android:textSize="14sp"
-                    android:textColor="@color/gris_medio"
-                    android:paddingBottom="8dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Bloquear nuevas entradas"
-                        android:textSize="14sp"
-                        android:textColor="@color/blanco" />
-
-                    <Switch
-                        android:id="@+id/switchBloqueo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
+                    android:text="Abrir salida"
+                    android:textAllCaps="false"
+                    android:backgroundTint="@color/verde_secundario"
+                    android:textColor="@color/blanco" />
 
             </LinearLayout>
 

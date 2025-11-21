@@ -57,7 +57,7 @@ public class MonitoreoFragment extends Fragment {
         ws.setUseWideViewPort(true);
 
         camView.setWebViewClient(new WebViewClient());
-        camView.loadUrl("http://192.168.137.95:81/stream");
+        camView.loadUrl("http://192.168.137.11:81/stream");
 
         return view;
     }
