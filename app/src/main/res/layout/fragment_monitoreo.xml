@@ -137,14 +137,18 @@
                     android:fontFamily="sans-serif-medium"
                     android:layout_marginBottom="16dp"/>
 
-                <!-- Grid de Plazas (RecyclerView) -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewPlazasAdmin"
+                <!-- 🔥 STREAM DE LA ESP32-CAM -->
+                <WebView
+                    android:id="@+id/webcamView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"/>
+                    android:layout_height="200dp"
+                    android:background="#000000"
+                    android:layout_marginTop="8dp" />
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
+
 
         <!-- ========== BOTÓN MAQUETA 3D (REQUERIDO) ========== -->
         <androidx.cardview.widget.CardView

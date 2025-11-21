@@ -1,50 +1,46 @@
 package com.example.losmuchachossecurity.ui.admin;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.losmuchachossecurity.R;
 import com.example.losmuchachossecurity.data.PlazaRepository;
 import com.example.losmuchachossecurity.model.Plaza;
 import com.example.losmuchachossecurity.ui.Maqueta3DActivity;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+
+import android.content.Intent;
 
 import java.util.List;
 
 public class MonitoreoFragment extends Fragment {
 
-    // ✅ CORREGIDO: Solo los IDs que existen en fragment_monitoreo.xml
     private TextView tvDisponiblesAdmin, tvOcupadosAdmin;
     private CardView cardMaqueta;
-    private RecyclerView recyclerViewPlazasAdmin;
     private PlazaRepository plazaRepository;
-    private FirebaseAuth mAuth;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_monitoreo, container, false);
 
-        mAuth = FirebaseAuth.getInstance();
         plazaRepository = new PlazaRepository();
-
         initViews(view);
         cargarMonitoreo();
 
-        // Listener para ir a Maqueta 3D
+        // Abrir maqueta 3D
         if (cardMaqueta != null) {
             cardMaqueta.setOnClickListener(v -> {
                 Intent intent = new Intent(getActivity(), Maqueta3DActivity.class);
@@ -52,18 +48,26 @@ public class MonitoreoFragment extends Fragment {
             });
         }
 
+        // ----------- 🔥 CÁMARA ESP32-CAM -----------
+        WebView camView = view.findViewById(R.id.webcamView);
+
+        WebSettings ws = camView.getSettings();
+        ws.setJavaScriptEnabled(true);
+        ws.setLoadWithOverviewMode(true);
+        ws.setUseWideViewPort(true);
+
+        camView.setWebViewClient(new WebViewClient());
+        camView.loadUrl("http://192.168.137.95:81/stream");
+
         return view;
     }
 
     private void initViews(View view) {
-        // ✅ Solo inicializamos lo que EXISTE en el XML nuevo
         tvDisponiblesAdmin = view.findViewById(R.id.tvDisponiblesAdmin);
         tvOcupadosAdmin = view.findViewById(R.id.tvOcupadosAdmin);
         cardMaqueta = view.findViewById(R.id.cardMaqueta);
-        recyclerViewPlazasAdmin = view.findViewById(R.id.recyclerViewPlazasAdmin);
 
-        // ✅ IMPORTANTE: Cambiar a 5 columnas para vista en tiempo real
-        recyclerViewPlazasAdmin.setLayoutManager(new GridLayoutManager(getContext(), 5));
+        // ❗️IMPORTANTE: ya NO existe recyclerViewPlazasAdmin en el XML
     }
 
     private void cargarMonitoreo() {
@@ -72,8 +76,6 @@ public class MonitoreoFragment extends Fragment {
             public void onPlazasObtenidas(List<Plaza> plazas) {
                 if (plazas != null && !plazas.isEmpty()) {
                     actualizarEstadisticas(plazas);
-                    // ✅ DESCOMENTAR cuando tengas PlazaAdminAdapter listo
-                    // recyclerViewPlazasAdmin.setAdapter(new PlazaAdminAdapter(plazas));
                 } else {
                     tvDisponiblesAdmin.setText("0");
                     tvOcupadosAdmin.setText("0");
