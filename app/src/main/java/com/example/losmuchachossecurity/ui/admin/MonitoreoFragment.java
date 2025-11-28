@@ -1,11 +1,16 @@
 package com.example.losmuchachossecurity.ui.admin;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,10 +40,20 @@ public class MonitoreoFragment extends Fragment {
     private TextView tvDisponiblesAdmin, tvOcupadosAdmin;
     private CardView cardMaqueta;
     private RecyclerView recyclerViewPlazasAdmin;
+    private WebView webViewCamera;
     private PlazaAdapter plazaAdapter;
 
     private FirebaseFirestore db;
-    private ListenerRegistration plazasListener; // ✅ Para detener el listener cuando se destruya el fragment
+    private ListenerRegistration plazasListener;
+
+    // 🔥 URLs ESPECÍFICAS PARA TU CONFIGURACIÓN
+    // EN MonitoreoFragment.java - ACTUALIZA ESTAS URLs:
+
+    // Usa la IP de tu PC en la red local, NO localhost
+    private static final String CAMERA_STREAM_URL = "http://192.168.67.132:5000/video"; // IP REAL de tu PC
+    private static final String CAMERA_STREAM_FALLBACK = "http://192.168.67.180:81/stream";  // IP del ESP32
+    private static final String LOCALHOST_STREAM = "http://127.0.0.1:5000/video";
+    private static final String TEST_STREAM_URL = "https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1";
 
     @Nullable
     @Override
@@ -47,9 +62,9 @@ public class MonitoreoFragment extends Fragment {
 
         db = FirebaseConfig.getFirestore();
         initViews(view);
-        setupRealtimeListener(); // ✅ Configurar listener en tiempo real
+        setupCameraStream();
+        setupRealtimeListener();
 
-        // Listener para ir a Maqueta 3D
         if (cardMaqueta != null) {
             cardMaqueta.setOnClickListener(v -> {
                 Intent intent = new Intent(getActivity(), Maqueta3DActivity.class);
@@ -65,14 +80,75 @@ public class MonitoreoFragment extends Fragment {
         tvOcupadosAdmin = view.findViewById(R.id.tvOcupadosAdmin);
         cardMaqueta = view.findViewById(R.id.cardMaqueta);
         recyclerViewPlazasAdmin = view.findViewById(R.id.recyclerViewPlazasAdmin);
+        webViewCamera = view.findViewById(R.id.webViewCamera);
 
-        // ✅ Grid de 2x2 para 4 plazas
         recyclerViewPlazasAdmin.setLayoutManager(new GridLayoutManager(getContext(), 2));
     }
 
-    /**
-     * ✅ TIEMPO REAL: Escucha cambios en Firebase automáticamente
-     */
+    private void setupCameraStream() {
+        WebSettings webSettings = webViewCamera.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setDomStorageEnabled(true);
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setUseWideViewPort(true);
+        webSettings.setBuiltInZoomControls(false);
+        webSettings.setDisplayZoomControls(false);
+        webSettings.setMediaPlaybackRequiresUserGesture(false);
+        webSettings.setAllowFileAccess(true);
+        webSettings.setAllowContentAccess(true);
+        webSettings.setAllowUniversalAccessFromFileURLs(true);
+        webSettings.setAllowFileAccessFromFileURLs(true);
+        webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+
+        webViewCamera.setWebChromeClient(new WebChromeClient());
+        webViewCamera.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                Log.d(TAG, "Cargando stream: " + url);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                Log.d(TAG, "Stream cargado: " + url);
+            }
+
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                super.onReceivedError(view, errorCode, description, failingUrl);
+                Log.e(TAG, "Error (" + errorCode + "): " + description);
+
+                if (getContext() != null) {
+                    // 🔄 SISTEMA DE FALLBACK INTELIGENTE
+                    if (failingUrl.equals(CAMERA_STREAM_URL)) {
+                        Log.d(TAG, "Probando con localhost...");
+                        webViewCamera.loadUrl(LOCALHOST_STREAM);
+                    } else if (failingUrl.equals(LOCALHOST_STREAM)) {
+                        Log.d(TAG, "Probando con IP de emulador...");
+                        webViewCamera.loadUrl(CAMERA_STREAM_FALLBACK);
+                    } else if (failingUrl.equals(CAMERA_STREAM_FALLBACK)) {
+                        Log.d(TAG, "Cargando stream de prueba...");
+                        webViewCamera.loadUrl(TEST_STREAM_URL);
+                        Toast.makeText(getContext(), "Usando stream de prueba", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getContext(), "Error: " + description, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+        // 🔥 INTENTAR CONEXIÓN PRINCIPAL
+        try {
+            Log.d(TAG, "Conectando a: " + CAMERA_STREAM_URL);
+            webViewCamera.loadUrl(CAMERA_STREAM_URL);
+        } catch (Exception e) {
+            Log.e(TAG, "Error inicial: ", e);
+            // Intentar con localhost inmediatamente
+            webViewCamera.loadUrl(LOCALHOST_STREAM);
+        }
+    }
+
     private void setupRealtimeListener() {
         plazasListener = db.collection("plazas")
                 .addSnapshotListener((querySnapshot, error) -> {
@@ -93,18 +169,15 @@ public class MonitoreoFragment extends Fragment {
                             }
                         }
 
-                        // ✅ Limitar a solo 4 plazas
                         List<Plaza> plazasLimitadas = new ArrayList<>();
                         int limite = Math.min(4, plazas.size());
                         for (int i = 0; i < limite; i++) {
                             plazasLimitadas.add(plazas.get(i));
                         }
 
-                        // ✅ Actualizar UI
                         actualizarEstadisticas(plazasLimitadas);
                         actualizarRecyclerView(plazasLimitadas);
-
-                        Log.d(TAG, "Plazas actualizadas en tiempo real: " + plazasLimitadas.size());
+                        Log.d(TAG, "Plazas actualizadas: " + plazasLimitadas.size());
                     } else {
                         tvDisponiblesAdmin.setText("0");
                         tvOcupadosAdmin.setText("0");
@@ -112,15 +185,12 @@ public class MonitoreoFragment extends Fragment {
                 });
     }
 
-    /**
-     * ✅ Actualiza las estadísticas (contador de disponibles/ocupados)
-     */
     private void actualizarEstadisticas(List<Plaza> plazas) {
         int disponibles = 0;
         int ocupados = 0;
 
         for (Plaza plaza : plazas) {
-            if (!plaza.isOcupado()) { // Si NO está ocupado = disponible
+            if (!plaza.isOcupado()) {
                 disponibles++;
             } else {
                 ocupados++;
@@ -131,9 +201,6 @@ public class MonitoreoFragment extends Fragment {
         tvOcupadosAdmin.setText(String.valueOf(ocupados));
     }
 
-    /**
-     * ✅ Actualiza el RecyclerView con las plazas
-     */
     private void actualizarRecyclerView(List<Plaza> plazas) {
         if (plazaAdapter == null) {
             plazaAdapter = new PlazaAdapter(plazas);
@@ -143,15 +210,33 @@ public class MonitoreoFragment extends Fragment {
         }
     }
 
-    /**
-     * ✅ IMPORTANTE: Detener el listener cuando se destruye el fragment
-     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         if (plazasListener != null) {
             plazasListener.remove();
-            Log.d(TAG, "Listener de plazas detenido");
+        }
+        if (webViewCamera != null) {
+            webViewCamera.stopLoading();
+            webViewCamera.loadUrl("about:blank");
+            webViewCamera.destroy();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (webViewCamera != null) {
+            webViewCamera.onResume();
+            webViewCamera.reload();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (webViewCamera != null) {
+            webViewCamera.onPause();
         }
     }
 }

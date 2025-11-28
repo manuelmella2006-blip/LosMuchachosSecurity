@@ -4,8 +4,11 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_LOCAL_NETWORK" />
 
     <application
+        android:usesCleartextTraffic="true"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -26,12 +29,12 @@
             </intent-filter>
         </activity>
 
-        <!-- MainActivityAdmin - ÚNICA actividad principal -->
+        <!-- MainActivityAdmin -->
         <activity
             android:name=".ui.admin.MainActivityAdmin"
             android:exported="false" />
 
-        <!-- GestionarUsuariosActivity - CRUD de usuarios -->
+        <!-- GestionarUsuariosActivity -->
         <activity
             android:name=".ui.admin.GestionarUsuariosActivity"
             android:exported="false"
@@ -48,4 +51,5 @@
             android:exported="false" />
 
     </application>
+
 </manifest>

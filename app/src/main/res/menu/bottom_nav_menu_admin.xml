@@ -13,7 +13,7 @@
         android:title="Barreras" />
 
     <item
-        android:id="@+id/nav_registros"
+        android:id="@+id/nav_reservar"
         android:icon="@drawable/ic_records"
         android:title="Registros" />
 
