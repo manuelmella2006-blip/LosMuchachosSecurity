@@ -5,26 +5,27 @@ import androidx.annotation.NonNull;
 import com.example.losmuchachossecurity.model.Plaza;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-/**
- * 🔥 PlazaRepository (versión Firestore)
- * Convierte toda la lógica de Realtime Database a Cloud Firestore.
- */
 public class PlazaRepository {
 
     private static final String PLAZAS_COLLECTION = "plazas";
+    private static final String RESERVAS_COLLECTION = "reservas";
     private final FirebaseFirestore db;
     private final CollectionReference plazasRef;
+    private final CollectionReference reservasRef;
 
     public PlazaRepository() {
-        db = FirebaseConfig.getFirestore(); // usa tu clase centralizada FirebaseConfig
+        db = FirebaseConfig.getFirestore();
         plazasRef = db.collection(PLAZAS_COLLECTION);
+        reservasRef = db.collection(RESERVAS_COLLECTION);
     }
 
     // ========================================
@@ -50,9 +51,6 @@ public class PlazaRepository {
     // MÉTODOS PARA OBTENER PLAZAS
     // ========================================
 
-    /**
-     * Obtiene todas las plazas de estacionamiento.
-     */
     public void obtenerPlazas(PlazaCallback callback) {
         plazasRef.get()
                 .addOnSuccessListener(querySnapshot -> {
@@ -67,9 +65,6 @@ public class PlazaRepository {
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
-    /**
-     * Obtiene una plaza específica por ID.
-     */
     public void obtenerPlazaPorId(String plazaId, PlazaUnicaCallback callback) {
         plazasRef.document(plazaId).get()
                 .addOnSuccessListener(documentSnapshot -> {
@@ -84,11 +79,9 @@ public class PlazaRepository {
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
-    /**
-     * Obtiene solo las plazas disponibles.
-     */
     public void obtenerPlazasDisponibles(PlazaCallback callback) {
-        plazasRef.whereEqualTo("disponible", true)
+        // ✅ CORREGIDO: Usar "ocupado: false" en lugar de "disponible: true"
+        plazasRef.whereEqualTo("ocupado", false)
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
                     List<Plaza> plazasDisponibles = new ArrayList<>();
@@ -107,41 +100,78 @@ public class PlazaRepository {
     // ========================================
 
     /**
-     * Reserva una plaza de estacionamiento.
+     * ✅ NUEVO: Reserva una plaza actualizando AMBAS colecciones
      */
-    public void reservarPlaza(String plazaId, String userId, ReservaCallback callback) {
-        DocumentReference plazaRef = plazasRef.document(plazaId);
+    public void reservarPlaza(String plazaId, String userId, String fecha,
+                              String horaInicio, String horaFin, ReservaCallback callback) {
 
-        plazaRef.get().addOnSuccessListener(documentSnapshot -> {
-            if (documentSnapshot.exists()) {
-                Plaza plaza = documentSnapshot.toObject(Plaza.class);
-                if (plaza != null && plaza.isDisponible()) {
-                    plazaRef.update(
-                                    "disponible", false,
-                                    "usuarioId", userId,
-                                    "fechaReserva", System.currentTimeMillis()
-                            ).addOnSuccessListener(aVoid -> callback.onReservaExitosa())
-                            .addOnFailureListener(e -> callback.onError(e.getMessage()));
-                } else {
-                    callback.onError("La plaza no está disponible");
-                }
-            } else {
-                callback.onError("Plaza no encontrada");
-            }
-        }).addOnFailureListener(e -> callback.onError(e.getMessage()));
+        // PASO 1: Verificar que la plaza existe y está disponible
+        plazasRef.document(plazaId).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (!documentSnapshot.exists()) {
+                        callback.onError("Plaza no encontrada");
+                        return;
+                    }
+
+                    Boolean ocupado = documentSnapshot.getBoolean("ocupado");
+                    if (ocupado != null && ocupado) {
+                        callback.onError("La plaza ya está ocupada");
+                        return;
+                    }
+
+                    // PASO 2: Crear reserva en colección "reservas"
+                    Map<String, Object> reservaData = new HashMap<>();
+                    reservaData.put("plazaId", plazaId);
+                    reservaData.put("userId", userId);
+                    reservaData.put("fecha", fecha);
+                    reservaData.put("horaInicio", horaInicio);
+                    reservaData.put("horaFin", horaFin);
+                    reservaData.put("estado", "activa");
+                    reservaData.put("timestampCreacion", FieldValue.serverTimestamp());
+
+                    reservasRef.add(reservaData)
+                            .addOnSuccessListener(docRef -> {
+                                // PASO 3: Actualizar plaza a ocupada
+                                Map<String, Object> plazaUpdate = new HashMap<>();
+                                plazaUpdate.put("ocupado", true);
+                                plazaUpdate.put("estado", "OCUPADO");
+                                plazaUpdate.put("ultima_actualizacion", FieldValue.serverTimestamp());
+
+                                plazasRef.document(plazaId)
+                                        .update(plazaUpdate)
+                                        .addOnSuccessListener(aVoid -> callback.onReservaExitosa())
+                                        .addOnFailureListener(e -> callback.onError("Reserva creada pero error al actualizar plaza: " + e.getMessage()));
+                            })
+                            .addOnFailureListener(e -> callback.onError("Error al crear reserva: " + e.getMessage()));
+                })
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
     /**
-     * Libera una plaza de estacionamiento.
+     * ✅ NUEVO: Libera una plaza eliminando la reserva
      */
     public void liberarPlaza(String plazaId, ReservaCallback callback) {
-        plazasRef.document(plazaId)
-                .update(
-                        "disponible", true,
-                        "usuarioId", null,
-                        "fechaReserva", null
-                )
-                .addOnSuccessListener(aVoid -> callback.onReservaExitosa())
+        // PASO 1: Buscar reserva activa para esta plaza
+        reservasRef.whereEqualTo("plazaId", plazaId)
+                .whereEqualTo("estado", "activa")
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    // PASO 2: Marcar reserva como completada o eliminarla
+                    for (QueryDocumentSnapshot doc : querySnapshot) {
+                        doc.getReference().update("estado", "completada");
+                    }
+
+                    // PASO 3: Liberar la plaza
+                    Map<String, Object> plazaUpdate = new HashMap<>();
+                    plazaUpdate.put("ocupado", false);
+                    plazaUpdate.put("estado", "LIBRE");
+                    plazaUpdate.put("ultima_actualizacion", FieldValue.serverTimestamp());
+
+                    plazasRef.document(plazaId)
+                            .update(plazaUpdate)
+                            .addOnSuccessListener(aVoid -> callback.onReservaExitosa())
+                            .addOnFailureListener(e -> callback.onError(e.getMessage()));
+                })
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
@@ -149,9 +179,6 @@ public class PlazaRepository {
     // MÉTODOS PARA ADMIN
     // ========================================
 
-    /**
-     * Crea una nueva plaza (para uso del administrador).
-     */
     public void crearPlaza(Plaza plaza, ReservaCallback callback) {
         String plazaId = plazasRef.document().getId();
         plaza.setId(plazaId);
@@ -162,19 +189,18 @@ public class PlazaRepository {
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
-    /**
-     * Actualiza el estado de una plaza.
-     */
-    public void actualizarEstadoPlaza(String plazaId, boolean disponible, ReservaCallback callback) {
+    public void actualizarEstadoPlaza(String plazaId, boolean ocupado, ReservaCallback callback) {
+        Map<String, Object> update = new HashMap<>();
+        update.put("ocupado", ocupado);
+        update.put("estado", ocupado ? "OCUPADO" : "LIBRE");
+        update.put("ultima_actualizacion", FieldValue.serverTimestamp());
+
         plazasRef.document(plazaId)
-                .update("disponible", disponible)
+                .update(update)
                 .addOnSuccessListener(aVoid -> callback.onReservaExitosa())
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
-    /**
-     * Elimina una plaza (para uso del administrador).
-     */
     public void eliminarPlaza(String plazaId, ReservaCallback callback) {
         plazasRef.document(plazaId)
                 .delete()
@@ -182,40 +208,15 @@ public class PlazaRepository {
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
-    // ========================================
-    // MÉTODOS AUXILIARES
-    // ========================================
-
-    /**
-     * Obtiene el número de plazas disponibles.
-     */
-    public void obtenerNumeroPlazasDisponibles(PlazaCallback callback) {
-        plazasRef.whereEqualTo("disponible", true)
-                .get()
-                .addOnSuccessListener(querySnapshot -> {
-                    List<Plaza> plazasDisponibles = new ArrayList<>();
-                    for (QueryDocumentSnapshot doc : querySnapshot) {
-                        Plaza plaza = doc.toObject(Plaza.class);
-                        plaza.setId(doc.getId());
-                        plazasDisponibles.add(plaza);
-                    }
-                    callback.onPlazasObtenidas(plazasDisponibles);
-                })
-                .addOnFailureListener(e -> callback.onError(e.getMessage()));
-    }
-
-    /**
-     * Verifica si el usuario tiene una reserva activa.
-     */
     public void verificarReservaUsuario(String userId, PlazaUnicaCallback callback) {
-        plazasRef.whereEqualTo("usuarioId", userId)
+        reservasRef.whereEqualTo("userId", userId)
+                .whereEqualTo("estado", "activa")
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
                     if (!querySnapshot.isEmpty()) {
-                        Plaza plaza = querySnapshot.getDocuments().get(0).toObject(Plaza.class);
-                        if (plaza != null) {
-                            plaza.setId(querySnapshot.getDocuments().get(0).getId());
-                            callback.onPlazaObtenida(plaza);
+                        String plazaId = querySnapshot.getDocuments().get(0).getString("plazaId");
+                        if (plazaId != null) {
+                            obtenerPlazaPorId(plazaId, callback);
                         }
                     } else {
                         callback.onError("No tiene reservas activas");

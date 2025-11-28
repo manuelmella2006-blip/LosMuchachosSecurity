@@ -1,10 +1,12 @@
-package com.example.losmuchachossecurity.ui.admin; // <-- CAMBIA si tu paquete es otro
+package com.example.losmuchachossecurity.ui.admin;
+
 import com.google.firebase.firestore.FieldValue;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +37,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ReservarFragment extends Fragment {
+
+    private static final String TAG = "ReservarFragment";
 
     // UI
     private RecyclerView recyclerViewDisponibles;
@@ -170,13 +174,12 @@ public class ReservarFragment extends Fragment {
         plazasAdapter.notifyDataSetChanged();
         spinnerAdapter.notifyDataSetChanged();
 
-        // Se asume estructura: plazas/{id} con campo boolean "ocupado"
+        // ✅ IMPORTANTE: Consultar por "ocupado: false" (coincide con tu estructura Firebase)
         plazasRef.whereEqualTo("ocupado", false)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                         String id = doc.getId();
-                        // Podrías leer más campos si los tienes (ej: nivel, tipo, etc.)
                         Plaza plaza = new Plaza(id);
                         plazasDisponibles.add(plaza);
                         plazasIds.add(id);
@@ -189,8 +192,11 @@ public class ReservarFragment extends Fragment {
                                 "No hay plazas disponibles actualmente",
                                 Toast.LENGTH_SHORT).show();
                     }
+
+                    Log.d(TAG, "Plazas disponibles cargadas: " + plazasIds.size());
                 })
                 .addOnFailureListener(e -> {
+                    Log.e(TAG, "Error cargando plazas", e);
                     Toast.makeText(getContext(),
                             "Error cargando plazas: " + e.getMessage(),
                             Toast.LENGTH_SHORT).show();
@@ -237,46 +243,59 @@ public class ReservarFragment extends Fragment {
         }
 
         // Datos de la reserva
-        Map<String, Object> data = new HashMap<>();
-        data.put("plazaId", plazaId);
-        data.put("fecha", fecha);
-        data.put("horaInicio", horaInicio);
-        data.put("horaFin", horaFin);
-        data.put("estado", "pendiente"); // o "confirmada" según quieras
-        data.put("timestampCreacion", FieldValue.serverTimestamp());
+        Map<String, Object> reservaData = new HashMap<>();
+        reservaData.put("plazaId", plazaId);
+        reservaData.put("fecha", fecha);
+        reservaData.put("horaInicio", horaInicio);
+        reservaData.put("horaFin", horaFin);
+        reservaData.put("estado", "activa"); // ✅ Coincide con tu estructura Firebase
+        reservaData.put("timestampCreacion", FieldValue.serverTimestamp());
         if (userId != null) {
-            data.put("userId", userId);
+            reservaData.put("userId", userId);
         }
 
-        reservasRef.add(data)
+        // ✅ PASO 1: Crear documento en colección "reservas"
+        reservasRef.add(reservaData)
                 .addOnSuccessListener(docRef -> {
-                    Toast.makeText(getContext(),
-                            "Reserva registrada correctamente",
-                            Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Reserva creada con ID: " + docRef.getId());
 
-                    // 🔥 Marcar la plaza como OCUPADA / RESERVADA en Firestore
+                    // ✅ PASO 2: Actualizar la plaza en colección "plazas"
+                    Map<String, Object> plazaUpdate = new HashMap<>();
+                    plazaUpdate.put("ocupado", true);              // ✅ Cambia a true
+                    plazaUpdate.put("estado", "OCUPADO");         // ✅ Cambia a "OCUPADO"
+                    plazaUpdate.put("ultima_actualizacion", FieldValue.serverTimestamp());
+
                     plazasRef.document(plazaId)
-                            .update(
-                                    "ocupado", true,
-                                    "estado", "RESERVADA",
-                                    "ultima_actualizacion", FieldValue.serverTimestamp()
-                            );
+                            .update(plazaUpdate)
+                            .addOnSuccessListener(aVoid -> {
+                                Log.d(TAG, "Plaza " + plazaId + " marcada como OCUPADA");
 
-                    // Limpiar campos del formulario
-                    etFecha.setText("");
-                    etHoraInicio.setText("");
-                    etHoraFin.setText("");
+                                Toast.makeText(getContext(),
+                                        "¡Reserva realizada! Plaza " + plazaId + " ocupada",
+                                        Toast.LENGTH_LONG).show();
 
-                    // Recargar plazas disponibles (ya no debe aparecer la recién reservada)
-                    cargarPlazasDisponibles();
+                                // Limpiar campos del formulario
+                                etFecha.setText("");
+                                etHoraInicio.setText("");
+                                etHoraFin.setText("");
+
+                                // Recargar plazas disponibles (ya no debe aparecer la reservada)
+                                cargarPlazasDisponibles();
+                            })
+                            .addOnFailureListener(e -> {
+                                Log.e(TAG, "Error actualizando plaza", e);
+                                Toast.makeText(getContext(),
+                                        "Reserva creada pero error al actualizar plaza: " + e.getMessage(),
+                                        Toast.LENGTH_SHORT).show();
+                            });
                 })
                 .addOnFailureListener(e -> {
+                    Log.e(TAG, "Error creando reserva", e);
                     Toast.makeText(getContext(),
                             "Error al registrar reserva: " + e.getMessage(),
                             Toast.LENGTH_SHORT).show();
                 });
     }
-
 
     // =========================
     // CLASE PLAZA
