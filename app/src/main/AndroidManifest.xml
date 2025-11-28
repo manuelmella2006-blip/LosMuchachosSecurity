@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permisos de red -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_LOCAL_NETWORK" />
@@ -48,7 +49,8 @@
         <!-- Maqueta3DActivity -->
         <activity
             android:name=".ui.Maqueta3DActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:hardwareAccelerated="true" />
 
     </application>
 

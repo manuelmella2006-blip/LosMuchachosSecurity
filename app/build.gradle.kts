@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.losmuchachossecurity"
-        minSdk = 26 // 🔥 BAJÉ EL MÍNIMO SDK PARA MÁS COMPATIBILIDAD
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -31,7 +31,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    // 🔥 HABILITAR VECTOR DRAWABLES
     buildFeatures {
         viewBinding = true
     }
@@ -47,8 +46,6 @@ dependencies {
 
     // 🔥 Firebase (usando Firebase BOM)
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
-
-    // Módulos de Firebase que usas
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-analytics")
@@ -59,7 +56,7 @@ dependencies {
     // 📄 Librería para generar PDFs
     implementation("com.itextpdf:itextg:5.5.10")
 
-    // 🌐 WebView mejorado (opcional)
+    // 🌐 WebView mejorado (PARA EL VISOR 3D)
     implementation("androidx.webkit:webkit:1.8.0")
 
     // 🔹 Librerías de pruebas
