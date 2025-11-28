@@ -32,7 +32,8 @@ import com.google.firebase.firestore.ListenerRegistration;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.HashMap;
+import java.util.Map;
 public class MonitoreoFragment extends Fragment {
 
     private static final String TAG = "MonitoreoFragment";
@@ -50,11 +51,11 @@ public class MonitoreoFragment extends Fragment {
     // EN MonitoreoFragment.java - ACTUALIZA ESTAS URLs:
 
     // Usa la IP de tu PC en la red local, NO localhost
-    private static final String CAMERA_STREAM_URL = "http://192.168.67.132:5000/video"; // IP REAL de tu PC
-    private static final String CAMERA_STREAM_FALLBACK = "http://192.168.67.180:81/stream";  // IP del ESP32
+    private static final String CAMERA_STREAM_URL =
+            "https://cloud-stream-server.onrender.com/viewer";
+    private static final String CAMERA_STREAM_FALLBACK = "http://192.168.67.180:81/stream";
     private static final String LOCALHOST_STREAM = "http://127.0.0.1:5000/video";
     private static final String TEST_STREAM_URL = "https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1";
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -84,51 +85,44 @@ public class MonitoreoFragment extends Fragment {
 
         recyclerViewPlazasAdmin.setLayoutManager(new GridLayoutManager(getContext(), 2));
     }
+    private void cargarStreamEnWebView(String streamUrl) {
+        WebSettings settings = webViewCamera.getSettings();
+        settings.setJavaScriptEnabled(true); // no necesitamos JS para MJPEG
+        settings.setDomStorageEnabled(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setUseWideViewPort(true);
+        settings.setBuiltInZoomControls(false);
+        settings.setDisplayZoomControls(false);
+        settings.setMediaPlaybackRequiresUserGesture(false);
+        settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
-    private void setupCameraStream() {
-        WebSettings webSettings = webViewCamera.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setDomStorageEnabled(true);
-        webSettings.setLoadWithOverviewMode(true);
-        webSettings.setUseWideViewPort(true);
-        webSettings.setBuiltInZoomControls(false);
-        webSettings.setDisplayZoomControls(false);
-        webSettings.setMediaPlaybackRequiresUserGesture(false);
-        webSettings.setAllowFileAccess(true);
-        webSettings.setAllowContentAccess(true);
-        webSettings.setAllowUniversalAccessFromFileURLs(true);
-        webSettings.setAllowFileAccessFromFileURLs(true);
-        webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        webViewCamera.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
-        webViewCamera.setWebChromeClient(new WebChromeClient());
         webViewCamera.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                Log.d(TAG, "Cargando stream: " + url);
+                Log.d(TAG, "Cargando stream URL directa: " + url);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                Log.d(TAG, "Stream cargado: " + url);
+                Log.d(TAG, "Stream cargado (URL directa): " + url);
             }
 
             @Override
+            @SuppressWarnings("deprecation")
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 super.onReceivedError(view, errorCode, description, failingUrl);
-                Log.e(TAG, "Error (" + errorCode + "): " + description);
+                Log.e(TAG, "Error WebView (" + errorCode + "): " + description);
 
                 if (getContext() != null) {
-                    // 🔄 SISTEMA DE FALLBACK INTELIGENTE
-                    if (failingUrl.equals(CAMERA_STREAM_URL)) {
-                        Log.d(TAG, "Probando con localhost...");
-                        webViewCamera.loadUrl(LOCALHOST_STREAM);
-                    } else if (failingUrl.equals(LOCALHOST_STREAM)) {
-                        Log.d(TAG, "Probando con IP de emulador...");
-                        webViewCamera.loadUrl(CAMERA_STREAM_FALLBACK);
-                    } else if (failingUrl.equals(CAMERA_STREAM_FALLBACK)) {
-                        Log.d(TAG, "Cargando stream de prueba...");
+                    if (streamUrl.equals(CAMERA_STREAM_URL)) {
+                        Log.d(TAG, "Fallo ngrok, probando ESP32 directo...");
+                        cargarStreamEnWebView(CAMERA_STREAM_FALLBACK);
+                    } else if (streamUrl.equals(CAMERA_STREAM_FALLBACK)) {
+                        Log.d(TAG, "Fallo ESP32, cargando stream de prueba YouTube...");
                         webViewCamera.loadUrl(TEST_STREAM_URL);
                         Toast.makeText(getContext(), "Usando stream de prueba", Toast.LENGTH_LONG).show();
                     } else {
@@ -138,14 +132,71 @@ public class MonitoreoFragment extends Fragment {
             }
         });
 
-        // 🔥 INTENTAR CONEXIÓN PRINCIPAL
+        webViewCamera.setWebChromeClient(new WebChromeClient());
+
+        // 👇 Header especial para saltarse el warning de ngrok
+        Map<String, String> headers = new HashMap<>();
+        headers.put("ngrok-skip-browser-warning", "true");
+
+        Log.d(TAG, "Cargando stream URL directa con header: " + streamUrl);
+        webViewCamera.loadUrl(streamUrl, headers);
+    }
+
+    private void testWebView() {
+        String html = "<html>" +
+                "<head>" +
+                "  <meta name='viewport' content='width=device-width, initial-scale=1.0' />" +
+                "</head>" +
+                "<body style='margin:0;padding:0;background:#000000;" +
+                "display:flex;align-items:center;justify-content:center;'>" +
+                "  <div style='color:#00FF00;font-size:32px;font-family:sans-serif;'>" +
+                "    HOLA STREAM 🚗" +
+                "  </div>" +
+                "</body>" +
+                "</html>";
+
+        WebSettings settings = webViewCamera.getSettings();
+        settings.setJavaScriptEnabled(false);
+        settings.setDomStorageEnabled(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setUseWideViewPort(true);
+        settings.setBuiltInZoomControls(false);
+        settings.setDisplayZoomControls(false);
+        settings.setMediaPlaybackRequiresUserGesture(false);
+        settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+
+        webViewCamera.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+
+        webViewCamera.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                Log.d(TAG, "TEST WebView: onPageStarted url=" + url);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                Log.d(TAG, "TEST WebView: onPageFinished url=" + url);
+            }
+        });
+
+        webViewCamera.setWebChromeClient(new WebChromeClient());
+        webViewCamera.loadDataWithBaseURL(
+                null,
+                html,
+                "text/html",
+                "UTF-8",
+                null
+        );
+    }
+    private void setupCameraStream() {
         try {
-            Log.d(TAG, "Conectando a: " + CAMERA_STREAM_URL);
-            webViewCamera.loadUrl(CAMERA_STREAM_URL);
+            Log.d(TAG, "Conectando a (ngrok) DIRECTO: " + CAMERA_STREAM_URL);
+            cargarStreamEnWebView(CAMERA_STREAM_URL);
         } catch (Exception e) {
-            Log.e(TAG, "Error inicial: ", e);
-            // Intentar con localhost inmediatamente
-            webViewCamera.loadUrl(LOCALHOST_STREAM);
+            Log.e(TAG, "Error inicial al cargar stream", e);
+            cargarStreamEnWebView(CAMERA_STREAM_FALLBACK);
         }
     }
 
