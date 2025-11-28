@@ -1,5 +1,7 @@
 package com.example.losmuchachossecurity.data;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.example.losmuchachossecurity.model.Plaza;
@@ -80,7 +82,6 @@ public class PlazaRepository {
     }
 
     public void obtenerPlazasDisponibles(PlazaCallback callback) {
-        // ✅ CORREGIDO: Usar "ocupado: false" en lugar de "disponible: true"
         plazasRef.whereEqualTo("ocupado", false)
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
@@ -99,13 +100,9 @@ public class PlazaRepository {
     // MÉTODOS PARA RESERVAR PLAZAS
     // ========================================
 
-    /**
-     * ✅ NUEVO: Reserva una plaza actualizando AMBAS colecciones
-     */
     public void reservarPlaza(String plazaId, String userId, String fecha,
                               String horaInicio, String horaFin, ReservaCallback callback) {
 
-        // PASO 1: Verificar que la plaza existe y está disponible
         plazasRef.document(plazaId).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (!documentSnapshot.exists()) {
@@ -119,7 +116,6 @@ public class PlazaRepository {
                         return;
                     }
 
-                    // PASO 2: Crear reserva en colección "reservas"
                     Map<String, Object> reservaData = new HashMap<>();
                     reservaData.put("plazaId", plazaId);
                     reservaData.put("userId", userId);
@@ -131,7 +127,6 @@ public class PlazaRepository {
 
                     reservasRef.add(reservaData)
                             .addOnSuccessListener(docRef -> {
-                                // PASO 3: Actualizar plaza a ocupada
                                 Map<String, Object> plazaUpdate = new HashMap<>();
                                 plazaUpdate.put("ocupado", true);
                                 plazaUpdate.put("estado", "OCUPADO");
@@ -147,21 +142,15 @@ public class PlazaRepository {
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
-    /**
-     * ✅ NUEVO: Libera una plaza eliminando la reserva
-     */
     public void liberarPlaza(String plazaId, ReservaCallback callback) {
-        // PASO 1: Buscar reserva activa para esta plaza
         reservasRef.whereEqualTo("plazaId", plazaId)
                 .whereEqualTo("estado", "activa")
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
-                    // PASO 2: Marcar reserva como completada o eliminarla
                     for (QueryDocumentSnapshot doc : querySnapshot) {
                         doc.getReference().update("estado", "completada");
                     }
 
-                    // PASO 3: Liberar la plaza
                     Map<String, Object> plazaUpdate = new HashMap<>();
                     plazaUpdate.put("ocupado", false);
                     plazaUpdate.put("estado", "LIBRE");
@@ -214,7 +203,9 @@ public class PlazaRepository {
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
                     if (!querySnapshot.isEmpty()) {
-                        String plazaId = querySnapshot.getDocuments().get(0).getString("plazaId");
+                        String plazaId = querySnapshot.getDocuments()
+                                .get(0)
+                                .getString("plazaId");
                         if (plazaId != null) {
                             obtenerPlazaPorId(plazaId, callback);
                         }
@@ -223,5 +214,30 @@ public class PlazaRepository {
                     }
                 })
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
+    }
+
+    // ========================================
+    // NUEVO: CAMBIO MANUAL DE ESTADO (ADMIN)
+    // ========================================
+
+    public void cambiarEstadoPlazaManual(String plazaId, boolean ocupado, ReservaCallback callback) {
+        Map<String, Object> update = new HashMap<>();
+        update.put("ocupado", ocupado);
+        update.put("estado", ocupado ? "OCUPADO" : "LIBRE");
+        update.put("ultima_actualizacion", FieldValue.serverTimestamp());
+
+        plazasRef.document(plazaId)
+                .update(update)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("PlazaRepository",
+                            "Estado cambiado manualmente: " + plazaId +
+                                    " -> " + (ocupado ? "OCUPADO" : "LIBRE"));
+                    callback.onReservaExitosa();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("PlazaRepository",
+                            "Error al cambiar estado manual: " + e.getMessage());
+                    callback.onError(e.getMessage());
+                });
     }
 }
