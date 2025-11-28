@@ -86,7 +86,24 @@ public class MonitoreoFragment extends Fragment {
         recyclerViewPlazasAdmin = view.findViewById(R.id.recyclerViewPlazasAdmin);
         webViewCamera = view.findViewById(R.id.webViewCamera);
 
-        recyclerViewPlazasAdmin.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        // 🔥 SOLUCIÓN: Grid responsive según tamaño de pantalla
+        int spanCount = calcularColumnas();
+        recyclerViewPlazasAdmin.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
+    }
+
+    /**
+     * 🔥 NUEVO: Calcula el número de columnas según el tamaño de pantalla
+     * Tablets/PC: 4 columnas (todas las plazas en una fila)
+     * Móviles: 2 columnas (2 filas de 2 plazas)
+     */
+    private int calcularColumnas() {
+        if (getResources().getConfiguration().screenWidthDp >= 600) {
+            // Tablets o pantallas grandes: 4 columnas
+            return 4;
+        } else {
+            // Móviles: 2 columnas
+            return 2;
+        }
     }
 
     // ==========================
@@ -230,7 +247,7 @@ public class MonitoreoFragment extends Fragment {
     private void actualizarRecyclerView(List<Plaza> plazas) {
         if (plazaAdapter == null) {
             plazaAdapter = new PlazaAdapter(plazas);
-            plazaAdapter.setPermitirCambioEstado(true); // Habilita cambiar estado tocando la card
+            plazaAdapter.setPermitirCambioEstado(true);
             recyclerViewPlazasAdmin.setAdapter(plazaAdapter);
         } else {
             plazaAdapter.actualizarPlazas(plazas);
